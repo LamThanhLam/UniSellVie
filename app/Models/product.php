@@ -19,7 +19,8 @@ class Product extends Model
         'platform',
         'genre',
         'content',
-        'price'
+        'price',
+        'image'
     ];
 
     // Automatically convert 'releaseDate' into Carbon object (date & month)

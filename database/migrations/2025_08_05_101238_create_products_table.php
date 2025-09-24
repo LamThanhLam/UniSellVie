@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->longText('content')->nullable();
             $table->decimal('price', 8, 2)->default(0); //8 for total number and 2 is for 2 numbers after the decimal point, 0 is the default price
+            $table->text('description')->nullable();
+            $table->string('platform')->nullable();
+            $table->string('genre')->nullable();
             $table->timestamps();
         });
     }

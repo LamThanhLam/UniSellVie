@@ -11,6 +11,9 @@
                 <p><strong>Ngày phát hành:</strong> {{ $product->releaseDate->format('d/m/Y') }}</p>
                 <p><strong>Nhà phát triển:</strong> {{ $product->developer }}</p>
                 <p><strong>Nhà xuất bản:</strong> {{ $product->publisher }}</p>
+                <p><strong>Mô tả:</strong> {{ $product->description }}</p>
+                <p><strong>Nền tảng:</strong> {{ $product->platform }}</p>
+                <p><strong>Thể loại:</strong> {{ $product->genre }}</p>
                 <p><strong>Giá:</strong> {{ number_format($product->price, 2) }}</p>
             </div>
             <div class="card-footer">

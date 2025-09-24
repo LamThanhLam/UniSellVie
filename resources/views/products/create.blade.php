@@ -64,6 +64,14 @@
                 @error('description') <span class="error">{{ $message }}</span> @enderror
             </div>
             <div class="form-group">
+                <label for="platform">Nền tảng</label>
+                <input type="text" name="platform" id="platform" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="genre">Thể loại</label>
+                <input type="text" name="genre" id="genre" class="form-control">
+            </div>
+            <div class="form-group">
                 <label for="content">Nội dung:</label>
                 <textarea id="content" name="content">{{ old('content') }}</textarea>
                 @error('content') <span class="error">{{ $message }}</span> @enderror

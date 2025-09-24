@@ -52,6 +52,9 @@ class ProductsController extends Controller
             'developer' => 'required',
             'publisher' => 'required',
             'releaseDate' => 'required|date',
+            'description' => 'nullable',
+            'platform' => 'nullable',
+            'genre' => 'nullable',
             'price' => 'required|numeric', 
         ]);
 
@@ -88,6 +91,9 @@ class ProductsController extends Controller
             'developer' => 'required',
             'publisher' => 'required',
             'releaseDate' => 'required|date',
+            'description' => 'nullable',
+            'platform' => 'nullable',
+            'genre' => 'nullable',
             'price' => 'required|numeric',
         ]);
 

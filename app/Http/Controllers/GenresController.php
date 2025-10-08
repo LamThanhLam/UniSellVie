@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 class GenresController extends Controller
@@ -11,7 +12,8 @@ class GenresController extends Controller
      */
     public function index()
     {
-        //
+        $genres = Genre::latest()->paginate(10);
+        return view('genres.index', compact('genres'));
     }
 
     /**
@@ -19,7 +21,7 @@ class GenresController extends Controller
      */
     public function create()
     {
-        //
+        return view('genres.create');
     }
 
     /**
@@ -27,7 +29,14 @@ class GenresController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:genres,name|max:255',
+        ]);
+
+        Genre::create($request->all());
+
+        return redirect()->route('genres.index')
+                         ->with('success', 'Genre has been added successfully.');
     }
 
     /**
@@ -41,24 +50,35 @@ class GenresController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Genre $genre)
     {
-        //
+        return view('genres.edit', compact('genre'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Genre $genre)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:genres,name,'.$genre->id.'|max:255', 
+        ]);
+
+        $genre->update($request->all());
+
+        return redirect()->route('genres.index')
+                         ->with('success', 'Genre has been updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Genre $genre)
     {
-        //
+        $genre->delete();
+
+        return redirect()->route('genres.index')
+                         ->with('success', 'Genre has been deleted successfully.');
     }
 }

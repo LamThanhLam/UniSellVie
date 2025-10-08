@@ -1,8 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\PlatformsController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -13,19 +19,14 @@ Route::get('/about', function () {
     return view('about');
 });
 
-//Product
-// Route::get('/products', [ProductsController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('products', ProductsController::class);
+    // Adds route for Platforms
+    Route::resource('platforms', PlatformsController::class); 
+    // ...
+});
 
 
-Route::resource('products', ProductsController::class);
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

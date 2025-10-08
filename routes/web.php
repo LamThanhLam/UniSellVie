@@ -20,6 +20,7 @@ Route::get('/about', function () {
     return view('about');
 });
 
+
 Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductsController::class);
     // Adds route for Platforms

@@ -53,9 +53,10 @@ class ProductsController extends Controller
             'publisher' => 'required',
             'releaseDate' => 'required|date',
             'description' => 'nullable',
-            'platform' => 'nullable',
-            'genre' => 'nullable',
+            'content' => 'nullable',
+            'system_requirements' => 'nullable',
             'price' => 'required|numeric', 
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // Save data into database
@@ -92,9 +93,10 @@ class ProductsController extends Controller
             'publisher' => 'required',
             'releaseDate' => 'required|date',
             'description' => 'nullable',
-            'platform' => 'nullable',
-            'genre' => 'nullable',
+            'content' => 'nullable',
+            'system_requirements' => 'nullable',
             'price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $product->update($request->all());

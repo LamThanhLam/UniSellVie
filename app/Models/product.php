@@ -9,6 +9,17 @@ class Product extends Model
 {
     use HasFactory;
 
+    // Adding relationships
+    public function platforms()
+    {
+        return $this->belongsToMany(Platform::class);
+    }
+
+    public function genres()
+    {
+        return $this->belongsToMany(Genre::class);
+    }
+    
     // Implement fields that can be assigned with multiple values (mass assignable)
     protected $fillable = [
         'title',

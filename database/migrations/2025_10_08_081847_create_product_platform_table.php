@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('product_platform', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('platform_id')->constrained()->onDelete('cascade');
+            $table->primary(['product_id', 'platform_id']); // Implementing double primary key
         });
     }
 

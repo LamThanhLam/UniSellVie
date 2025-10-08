@@ -57,10 +57,18 @@ class ProductsController extends Controller
             'system_requirements' => 'nullable',
             'price' => 'required|numeric', 
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'platform_ids' => 'required|array', // Must have this field from form
+            'platform_ids.*' => 'exists:platforms,id', // Check the existence of ID
+            'genre_ids' => 'required|array',
+            'genre_ids.*' => 'exists:genres,id',
         ]);
 
-        // Save data into database
-        Product::create($request->all());
+        // 1. Creates product
+        $product = Product::create($request->except(['platform_ids', 'genre_ids'])); 
+
+        // 2. Saves the relationship
+        $product->platforms()->attach($request->input('platform_ids'));
+        $product->genres()->attach($request->input('genre_ids'));
 
         return redirect()->route('products.index')
                         ->with('success', 'This product has been added successfully.');
@@ -97,9 +105,18 @@ class ProductsController extends Controller
             'system_requirements' => 'nullable',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'platform_ids' => 'required|array',
+            'platform_ids.*' => 'exists:platforms,id',
+            'genre_ids' => 'required|array',
+            'genre_ids.*' => 'exists:genres,id',
         ]);
 
-        $product->update($request->all());
+        // 1. Update main fields
+        $product->update($request->except(['platform_ids', 'genre_ids']));
+
+        // 2. Synchronize relationships
+        $product->platforms()->sync($request->input('platform_ids'));
+        $product->genres()->sync($request->input('genre_ids'));
 
         return redirect()->route('products.index')->with('success', 'This product has been updated successfully.');
     }

@@ -16,8 +16,6 @@ class Product extends Model
         'developer',
         'publisher',
         'description',
-        'platform',
-        'genre',
         'system_requirements',
         'content',
         'price',

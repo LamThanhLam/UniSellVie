@@ -53,9 +53,13 @@
                 <input type="text" name="genre" id="genre" class="form-control" value="{{ $product->genre }}">
             </div>
             <div class="form-group">
-                <label for="content">Nội dung:</label>
-                <textarea id="content" name="content">{{ old('content', $product->content) }}</textarea>
-                @error('content') <span class="error">{{ $message }}</span> @enderror
+                <label for="content">Giới thiệu chi tiết (About This Game)</label>
+                <textarea name="content" id="content" class="form-control" rows="8">{{ $product->content ?? '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="system_requirements">Yêu cầu cấu hình (System Requirements)</label>
+                <textarea name="system_requirements" id="system_requirements" class="form-control" rows="4">{{ $product->system_requirements ?? '' }}</textarea>
             </div>
             <div class="form-group">
                 <label for="price">Giá</label>

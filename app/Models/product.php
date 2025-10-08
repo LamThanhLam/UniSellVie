@@ -18,6 +18,7 @@ class Product extends Model
         'description',
         'platform',
         'genre',
+        'system_requirements',
         'content',
         'price',
         'image'

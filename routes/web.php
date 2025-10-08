@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PlatformsController;
+use App\Http\Controllers\GenresController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductsController::class);
     // Adds route for Platforms
     Route::resource('platforms', PlatformsController::class); 
-    // ...
+    // Add route for Genres
+    Route::resource('genres', GenresController::class);
 });
 
 

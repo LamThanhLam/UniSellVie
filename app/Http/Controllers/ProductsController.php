@@ -53,15 +53,20 @@ class ProductsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            // Required fields
             'title' => 'required',
             'developer' => 'required',
             'publisher' => 'required',
             'releaseDate' => 'required|date',
+            'price' => 'required|numeric', 
+
+            // Nullable fields
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'price' => 'required|numeric', 
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            
+            // Validation for relationships
             'platform_ids' => 'required|array', // Must have this field from form
             'platform_ids.*' => 'exists:platforms,id', // Check the existence of ID
             'genre_ids' => 'required|array',

@@ -73,6 +73,16 @@ class ProductsController extends Controller
             'genre_ids.*' => 'exists:genres,id',
         ]);
 
+        $input = $request->except(['platform_ids', 'genre_ids']); // Removes 2 ID fields from main input
+
+        // Processing uploaded image
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
+
         // 1. Creates product
         $product = Product::create($request->except(['platform_ids', 'genre_ids'])); 
 

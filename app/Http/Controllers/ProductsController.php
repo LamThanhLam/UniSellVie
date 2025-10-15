@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Genre;
+use App\Models\Platform;
 use App\Http\Requests\StoreProductRequest; // You will need this Form Request if you ever wanted to use the request syntax
 use App\Http\Requests\UpdateProductRequest; // The same with the above and also rememer to create them in the terminal
 use Illuminate\Http\Request;
@@ -39,7 +41,10 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $platforms = Platform::all(); // Get all Platforms
+        $genres = Genre::all();       // Get all Genres
+
+        return view('products.create', compact('platforms', 'genres'));
     }
 
     /**
@@ -87,7 +92,14 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit', compact('product'));
+        $platforms = Platform::all(); // Get all Platforms
+        $genres = Genre::all();       // Get all Genres
+        
+        // Get ID of all selected Platform and Genre for this product
+        $productPlatforms = $product->platforms->pluck('id')->toArray();
+        $productGenres = $product->genres->pluck('id')->toArray();
+
+        return view('products.edit', compact('product', 'platforms', 'genres', 'productPlatforms', 'productGenres'));
     }
 
     /**

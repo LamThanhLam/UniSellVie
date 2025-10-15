@@ -123,15 +123,20 @@ class ProductsController extends Controller
     public function update(Request $request, Product $product)
     {
         $request->validate([
+            // Required fields
             'title' => 'required',
             'developer' => 'required',
             'publisher' => 'required',
             'releaseDate' => 'required|date',
+            'price' => 'required|numeric',
+
+            // Nullable fields
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+
             'platform_ids' => 'required|array',
             'platform_ids.*' => 'exists:platforms,id',
             'genre_ids' => 'required|array',

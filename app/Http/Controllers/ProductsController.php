@@ -84,7 +84,7 @@ class ProductsController extends Controller
         }
 
         // 1. Creates product
-        $product = Product::create($request->except(['platform_ids', 'genre_ids'])); 
+        $product = Product::create($input); // The ID remover has been added up there so there is no need for the remover down here
 
         // 2. Saves the relationship
         $product->platforms()->attach($request->input('platform_ids'));

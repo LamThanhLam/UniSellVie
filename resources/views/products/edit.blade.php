@@ -44,13 +44,32 @@
                 <textarea id="description" name="description">{{ old('description', $product->description) }}</textarea>
                 @error('description') <span class="error">{{ $message }}</span> @enderror
             </div>
-            <div class="form-group">
-                <label for="platform">Nền tảng</label>
-                <input type="text" name="platform" id="platform" class="form-control" value="{{ $product->platform }}">
+            <div class="form-group mb-4">
+                <label><strong>Nền tảng (Platforms):</strong></label><br>
+                @foreach ($platforms as $platform)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="platform_ids[]" id="platform_{{ $platform->id }}" value="{{ $platform->id }}"
+                            {{ in_array($platform->id, $productPlatforms) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="platform_{{ $platform->id }}">{{ $platform->name }}</label>
+                    </div>
+                @endforeach
+                @error('platform_ids')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
-            <div class="form-group">
-                <label for="genre">Thể loại</label>
-                <input type="text" name="genre" id="genre" class="form-control" value="{{ $product->genre }}">
+
+            <div class="form-group mb-4">
+                <label><strong>Thể loại (Genres):</strong></label><br>
+                @foreach ($genres as $genre)
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="genre_ids[]" id="genre_{{ $genre->id }}" value="{{ $genre->id }}"
+                            {{ in_array($genre->id, $productGenres) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="genre_{{ $genre->id }}">{{ $genre->name }}</label>
+                    </div>
+                @endforeach
+                @error('genre_ids')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="content">Giới thiệu chi tiết (About This Game)</label>

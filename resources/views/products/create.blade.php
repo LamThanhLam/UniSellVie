@@ -101,6 +101,10 @@
                 <label for="price">Giá</label>
                 <input type="number" step="0.01" name="price" id="price" class="form-control" required>
             </div>
+            <div class="form-group mb-3">
+                <label for="image">Ảnh sản phẩm</label>
+                <input type="file" name="image" id="image" class="form-control">
+            </div>
             <button type="submit" class="btn btn-primary">Lưu sản phẩm</button>
             <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
         </form>

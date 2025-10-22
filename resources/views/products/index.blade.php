@@ -33,7 +33,13 @@
             <tbody>
                 @forelse ($products as $product)
                     <tr>
-                        <td>{{ $product->title }}</td>
+                    <td> @if ($product->image)
+                            <img src="{{ asset('images/' . $product->image) }}" width="50px" height="50px" alt="Product image">
+                        @else
+                            <img src="{{ asset('images/default.png') }}" width="50px" height="50px" alt="No image">
+                        @endif
+                    </td>    
+                    <td><a href="{{ route('products.show', $product->id) }}">{{ $product->title }}</a></td>
                         <td>{{ $product->releaseDate->format('d/m/Y') }}</td>
                         <td>{{ $product->developer }}</td>
                         <td>{{ $product->publisher }}</td>

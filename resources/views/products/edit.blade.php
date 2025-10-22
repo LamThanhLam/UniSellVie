@@ -19,7 +19,8 @@
 
         <form action="{{ route('products.update', $product->id) }}" method="POST">
             @csrf
-            @method('PUT') <div class="form-group">
+            @method('PUT') 
+            <div class="form-group">
                 <label for="title">Tiêu đề:</label>
                 <input type="text" id="title" name="title" value="{{ old('title', $product->title) }}" required>
                 @error('title') <span class="error">{{ $message }}</span> @enderror
@@ -84,7 +85,17 @@
                 <label for="price">Giá</label>
                 <input type="number" step="0.01" name="price" id="price" class="form-control" value="{{ $product->price }}" required>
             </div>
-
+            <div class="form-group mb-3">
+                <label>Ảnh hiện tại:</label><br>
+                @if ($product->image)
+                    <img src="{{ asset('images/' . $product->image) }}" width="100px" class="img-fluid mb-2" alt="Ảnh sản phẩm">
+                @else
+                    <p>Không có ảnh.</p>
+                @endif
+                
+                <label for="image">Chọn ảnh mới (Nếu muốn thay đổi):</label>
+                <input type="file" name="image" id="image" class="form-control">
+            </div>
             <button type="submit" class="btn btn-primary">Cập nhật sản phẩm</button>
             <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại danh sách</a>
         </form>

@@ -23,11 +23,11 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Tiêu đề</th>
+                    <th>Ảnh</th> <th>Tiêu đề</th>
                     <th>Ngày phát hành</th>
                     <th>Nhà phát triển</th>
                     <th>Nhà xuất bản</th>
-                    <th>Hành động</th>
+                    <th width="280px">Hành động</th>
                 </tr>
             </thead>
             <tbody>

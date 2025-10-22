@@ -151,6 +151,10 @@ class ProductsController extends Controller
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
             $input['image'] = "$profileImage";
+            // Logic for DELETE OLD IMAGE
+            if ($product->image && File::exists(public_path('images/' . $product->image))) {
+                File::delete(public_path('images/' . $product->image));
+            }
         } else {
             // Keep the old image if there is no new image uploaded
             unset($input['image']);

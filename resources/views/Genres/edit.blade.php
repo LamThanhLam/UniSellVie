@@ -15,7 +15,7 @@
             </div>
         @endif
 
-        <form action="{{ route('genres.update', $platform->id) }}" method="POST">
+        <form action="{{ route('genres.update', $genre->id) }}" method="POST">
             @csrf
             @method('PUT')
 

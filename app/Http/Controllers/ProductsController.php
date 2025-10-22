@@ -136,15 +136,28 @@ class ProductsController extends Controller
             'system_requirements' => 'nullable',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
-
+            // Validation for relationships
             'platform_ids' => 'required|array',
             'platform_ids.*' => 'exists:platforms,id',
             'genre_ids' => 'required|array',
             'genre_ids.*' => 'exists:genres,id',
         ]);
 
+        $input = $request->except(['platform_ids', 'genre_ids']);
+
+        // Process image uploading
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        } else {
+            // Keep the old image if there is no new image uploaded
+            unset($input['image']);
+        }
+
         // 1. Update main fields
-        $product->update($request->except(['platform_ids', 'genre_ids']));
+        $product->update($input); // The same with create, there has been an input remover for both genre and platform so there is no need for an input remover down here
 
         // 2. Synchronize relationships
         $product->platforms()->sync($request->input('platform_ids'));

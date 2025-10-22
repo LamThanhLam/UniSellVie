@@ -11,9 +11,43 @@
                 <p><strong>Ngày phát hành:</strong> {{ $product->releaseDate->format('d/m/Y') }}</p>
                 <p><strong>Nhà phát triển:</strong> {{ $product->developer }}</p>
                 <p><strong>Nhà xuất bản:</strong> {{ $product->publisher }}</p>
-                <p><strong>Mô tả:</strong> {{ $product->description }}</p>
-                <p><strong>Nền tảng:</strong> {{ $product->platform }}</p>
-                <p><strong>Thể loại:</strong> {{ $product->genre }}</p>
+                <p><strong>Mô tả ngắn:</strong> {{ $product->description }}</p>
+
+                {{-- Display Platforms --}}
+                <p>
+                    <strong>Nền tảng:</strong>
+                    @if ($product->platforms->count())
+                        @foreach ($product->platforms as $platform)
+                            <span class="badge bg-secondary">{{ $platform->name }}</span>
+                        @endforeach
+                    @else
+                        <span>Chưa có nền tảng nào được chỉ định.</span>
+                    @endif
+                </p>
+
+                {{-- Display Genres --}}
+                <p>
+                    <strong>Thể loại:</strong>
+                    @if ($product->genres->count())
+                        @foreach ($product->genres as $genre)
+                            <span class="badge bg-info">{{ $genre->name }}</span>
+                        @endforeach
+                    @else
+                        <span>Chưa có thể loại nào được chỉ định.</span>
+                    @endif
+                </p>
+
+                {{-- Display About This Game (Content) --}}
+                <h2>Giới thiệu chi tiết (About This Game)</h2>
+                <div>
+                    {!! nl2br(e($product->content)) !!} {{-- Dùng nl2br để giữ định dạng xuống dòng --}}
+                </div>
+
+                {{-- Display system requirements --}}
+                <h2>Yêu cầu Cấu hình (System Requirements)</h2>
+                <div>
+                    {!! nl2br(e($product->system_requirements)) !!}
+                </div>
                 <p><strong>Giá:</strong> {{ number_format($product->price, 2) }}</p>
             </div>
             <div class="card-footer">

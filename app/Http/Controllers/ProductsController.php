@@ -7,7 +7,9 @@ use App\Models\Genre;
 use App\Models\Platform;
 use App\Http\Requests\StoreProductRequest; // You will need this Form Request if you ever wanted to use the request syntax
 use App\Http\Requests\UpdateProductRequest; // The same with the above and also rememer to create them in the terminal
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductsController extends Controller
 {

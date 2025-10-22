@@ -38,6 +38,6 @@
             </tbody>
         </table>
 
-        {!! $platforms->links() !!}
+        {!! $genres->links() !!}
     </div>
 @endsection

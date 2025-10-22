@@ -25,12 +25,14 @@ class Product extends Model
     // Adding relationships
     public function platforms()
     {
-        return $this->belongsToMany(Platform::class);
+        // Scpecify the name of the relational table is 'product_platform'
+        return $this->belongsToMany(Platform::class, 'product_platform');
     }
 
     public function genres()
     {
-        return $this->belongsToMany(Genre::class);
+        // Scpecify the name of the relational table is 'product_genre'
+        return $this->belongsToMany(Genre::class, 'product_genre');
     }
 
     // Automatically convert 'releaseDate' into Carbon object (date & month)

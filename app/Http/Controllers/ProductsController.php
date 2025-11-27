@@ -66,7 +66,7 @@ class ProductsController extends Controller
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // ONLY TEST FILE SIZE
             
             // Validation for relationships
             'platform_ids' => 'required|array', // Must have this field from form
@@ -136,7 +136,7 @@ class ProductsController extends Controller
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // ONLY TEST FILE SIZE
 
             // Validation for relationships
             'platform_ids' => 'required|array',

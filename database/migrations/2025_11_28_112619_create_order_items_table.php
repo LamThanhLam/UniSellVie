@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('order_id')->constrained()->onDelete('cascade'); // Link to the parent order
+            $table->foreignId('product_id')->constrained()->onDelete('cascade'); // Link to the purchased product
+            $table->unsignedBigInteger('price'); // Price of the product at the time of purchase (crucial)
+            $table->integer('quantity')->default(1);
             $table->timestamps();
         });
     }

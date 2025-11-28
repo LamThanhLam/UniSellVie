@@ -3,8 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Product;
+use App\Models\User;
 
 class CartItem extends Model
 {
-    //
+    use HasFactory;
+    protected $fillable = ['user_id', 'product_id', 'quantity'];
+
+    // Relationship: 1 CartItem belongs to 1 Product
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+    // Relationship: 1 CartItem belongs to 1 User
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

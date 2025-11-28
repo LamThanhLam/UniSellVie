@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Link to the user who placed the order
+            $table->unsignedBigInteger('total_amount'); // Total cost of the order
+            $table->string('status')->default('Pending'); // Order status: Pending, Paid, Failed, Completed
+            $table->string('payment_method')->nullable(); // Payment method (e.g., Card, PayPal, Key)
             $table->timestamps();
         });
     }

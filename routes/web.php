@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PlatformsController;
 use App\Http\Controllers\GenresController;
+use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +31,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('genres', GenresController::class);
     // Add route for Cart
     Route::resource('cart', CartController::class);
+    // Add route for Order
+    Route::resource('order', OrderController::class);
 });
 
 

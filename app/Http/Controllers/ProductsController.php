@@ -155,6 +155,11 @@ class ProductsController extends Controller
         // Process image uploading
         if ($image = $request->file('image')) {
             $destinationPath = public_path('images/'); // CORRECT PATH: points to public/images
+
+            // Ensure the directory exists
+            if (!File::isDirectory($destinationPath)) {
+                File::makeDirectory($destinationPath, 0777, true, true);
+            }
             
             // Logic for DELETE OLD IMAGE (Only delete if a file exists and is being replaced)
             if ($product->image && File::exists(public_path('images/' . $product->image))) {

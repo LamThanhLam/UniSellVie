@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Genre;
 use App\Models\Platform;
-use App\Http\Requests\StoreProductRequest; // You will need this Form Request if you ever wanted to use the request syntax
-use App\Http\Requests\UpdateProductRequest; // The same with the above and also rememer to create them in the terminal
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\File; // Required for file existence and deletion
+use Illuminate\Support\Facades\Storage; // Optional, but good practice
 
 class ProductsController extends Controller
 {
@@ -44,7 +43,7 @@ class ProductsController extends Controller
     public function create()
     {
         $platforms = Platform::all(); // Get all Platforms
-        $genres = Genre::all();       // Get all Genres
+        $genres = Genre::all(); // Get all Genres
 
         return view('products.create', compact('platforms', 'genres'));
     }
@@ -66,34 +65,40 @@ class ProductsController extends Controller
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'image' => 'nullable|max:2048', // ONLY TEST FILE SIZE
+            'image' => 'nullable|max:2048', // Validation: ONLY TEST FILE SIZE
             
             // Validation for relationships
-            'platform_ids' => 'required|array', // Must have this field from form
-            'platform_ids.*' => 'exists:platforms,id', // Check the existence of ID
+            'platform_ids' => 'required|array', 
+            'platform_ids.*' => 'exists:platforms,id', 
             'genre_ids' => 'required|array',
             'genre_ids.*' => 'exists:genres,id',
         ]);
 
-        $input = $request->except(['platform_ids', 'genre_ids']); // Removes 2 ID fields from main input
+        $input = $request->except(['platform_ids', 'genre_ids']);
 
-        // Processing uploaded image
+        // CRITICAL FIX: Processing uploaded image and ensuring it saves to the PUBLIC folder
         if ($image = $request->file('image')) {
-            $destinationPath = 'images/';
+            $destinationPath = public_path('images/'); // CORRECT PATH: points to public/images
+            
+            // Create directory if it doesn't exist
+            if (!File::isDirectory($destinationPath)) {
+                File::makeDirectory($destinationPath, 0777, true, true);
+            }
+
             $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $profileImage);
-            $input['image'] = "$profileImage";
+            $input['image'] = $profileImage; // Store ONLY the filename
         }
 
         // 1. Creates product
-        $product = Product::create($input); // The ID remover has been added up there so there is no need for the remover down here
+        $product = Product::create($input);
 
         // 2. Saves the relationship
         $product->platforms()->attach($request->input('platform_ids'));
         $product->genres()->attach($request->input('genre_ids'));
 
         return redirect()->route('products.index')
-                        ->with('success', 'This product has been added successfully.');
+                         ->with('success', 'This product has been added successfully.');
     }
 
     /**
@@ -110,7 +115,7 @@ class ProductsController extends Controller
     public function edit(Product $product)
     {
         $platforms = Platform::all(); // Get all Platforms
-        $genres = Genre::all();       // Get all Genres
+        $genres = Genre::all(); // Get all Genres
         
         // Get ID of all selected Platform and Genre for this product
         $productPlatforms = $product->platforms->pluck('id')->toArray();
@@ -136,7 +141,7 @@ class ProductsController extends Controller
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'image' => 'nullable|max:2048', // ONLY TEST FILE SIZE
+            'image' => 'nullable|max:2048', // Validation: ONLY TEST FILE SIZE
 
             // Validation for relationships
             'platform_ids' => 'required|array',
@@ -149,21 +154,23 @@ class ProductsController extends Controller
 
         // Process image uploading
         if ($image = $request->file('image')) {
-            $destinationPath = 'images/';
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $input['image'] = "$profileImage";
-            // Logic for DELETE OLD IMAGE
+            $destinationPath = public_path('images/'); // CORRECT PATH: points to public/images
+            
+            // Logic for DELETE OLD IMAGE (Only delete if a file exists and is being replaced)
             if ($product->image && File::exists(public_path('images/' . $product->image))) {
                 File::delete(public_path('images/' . $product->image));
             }
+            
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = $profileImage;
         } else {
             // Keep the old image if there is no new image uploaded
             unset($input['image']);
         }
 
         // 1. Update main fields
-        $product->update($input); // The same with create, there has been an input remover for both genre and platform so there is no need for an input remover down here
+        $product->update($input);
 
         // 2. Synchronize relationships
         $product->platforms()->sync($request->input('platform_ids'));
@@ -177,6 +184,11 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
+        // Delete the image file from the public folder first
+        if ($product->image && File::exists(public_path('images/' . $product->image))) {
+            File::delete(public_path('images/' . $product->image));
+        }
+        
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Product deleted successfully!');

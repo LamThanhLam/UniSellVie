@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PlatformsController;
 use App\Http\Controllers\GenresController;
@@ -27,6 +28,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('platforms', PlatformsController::class); 
     // Add route for Genres
     Route::resource('genres', GenresController::class);
+    // Add route for Cart
+    Route::resource('cart', CartController::class);
 });
 
 

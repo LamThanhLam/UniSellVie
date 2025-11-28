@@ -29,10 +29,18 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('platforms', PlatformsController::class); 
     // Add route for Genres
     Route::resource('genres', GenresController::class);
-    // Add route for Cart
-    Route::resource('cart', CartController::class);
-    // Add route for Order
-    Route::resource('order', OrderController::class);
+
+    // CART: index and destroy
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::delete('/cart/remove/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
+
+    // CART: Add product to cart (need Route Model Binding for Product)
+    Route::post('/cart/add/{product}', [CartController::class, 'store'])->name('cart.store');
+
+    // ORDERS/CHECKOUT
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout.process');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
 
 

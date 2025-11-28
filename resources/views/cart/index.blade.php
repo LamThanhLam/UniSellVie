@@ -36,6 +36,15 @@
         <div class="card p-3">
             <h3>Tổng cộng: {{ number_format($totalPrice) }} VNĐ</h3> <button class="btn btn-primary btn-lg mt-3">Tiến hành Thanh toán (Tính năng chỉ là mô phỏng)</button> </div>
     @endif
+
+    <div class="card p-3">
+        <h3>Tổng cộng: {{ number_format($totalPrice) }} VNĐ</h3>
+        
+        <form action="{{ route('checkout.process') }}" method="POST">
+            @csrf
+            <button type="submit" class="btn btn-primary btn-lg mt-3">Tiến hành Thanh toán</button>
+        </form>
+    </div>
     
     <a href="{{ route('products.index') }}" class="btn btn-secondary mt-3">Tiếp tục mua sắm</a> </div>
 @endsection

@@ -23,7 +23,7 @@
         </div>
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="{{ url('/') }}" class="navbar-brand mx-4 mb-3"> <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>Admin Dashboard</h3>
+                <a href="{{ url('/') }}" class="navbar-brand mx-4 mb-3"> <h3 class="text-primary"></i>UniSellVie</h3>
                 </a>
                 
                 <div class="d-flex align-items-center ms-4 mb-4">
@@ -33,10 +33,10 @@
                 
                 <div class="navbar-nav w-100">
                     <a href="{{ route('home') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="{{ route('products.index') }}" class="nav-item nav-link"><i class="fa fa-gamepad me-2"></i>Quản lý Sản phẩm</a> <a href="{{ route('platforms.index') }}" class="nav-item nav-link"><i class="fa fa-desktop me-2"></i>Quản lý Nền tảng</a> <a href="{{ route('genres.index') }}" class="nav-item nav-link"><i class="fa fa-tags me-2"></i>Quản lý Thể loại</a> @auth
+                    <a href="{{ route('products.index') }}" class="nav-item nav-link"><i class="fa fa-gamepad me-2"></i>Manage Product</a> <a href="{{ route('platforms.index') }}" class="nav-item nav-link"><i class="fa fa-desktop me-2"></i>Quản lý Nền tảng</a> <a href="{{ route('genres.index') }}" class="nav-item nav-link"><i class="fa fa-tags me-2"></i>Quản lý Thể loại</a> @auth
                     <a href="{{ route('logout') }}" class="nav-item nav-link" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="fa fa-sign-out-alt me-2"></i>Đăng xuất
+                        <i class="fa fa-sign-out-alt me-2"></i>Logout
                     </a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
@@ -58,7 +58,24 @@
                 </form>
                 
                 <div class="navbar-nav align-items-center ms-auto">
-                    <span class="text-white d-none d-lg-inline-flex">{{ Auth::user()->name ?? 'Guest' }}</span>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="text-white d-none d-lg-inline-flex">{{ Auth::user()->name ?? 'Guest' }}</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
+                                <!-- <a href="#" class="dropdown-item">My Profile</a>
+                                <a href="#" class="dropdown-item">Settings</a> -->
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a>
+
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                        </div>
+                    </div>
                 </div>
             </nav>
             <div class="container-fluid pt-4 px-4">

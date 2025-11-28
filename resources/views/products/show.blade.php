@@ -67,6 +67,16 @@
             </div>
             <div class="card-footer">
                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Sửa</a>
+                @auth
+                    <form action="{{ route('cart.store', $product->id) }}" method="POST" class="mt-3">
+                        @csrf
+                        <button type="submit" class="btn btn-success btn-lg">
+                            {{ number_format($product->price) }} VNĐ - Thêm vào Giỏ hàng
+                        </button>
+                    </form>
+                @else
+                    <p class="mt-3 text-danger">Vui lòng <a href="{{ route('login') }}">Đăng nhập</a> để mua sản phẩm.</p>
+                @endauth
                 <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>
             </div>
         </div>

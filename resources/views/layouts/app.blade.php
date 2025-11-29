@@ -55,12 +55,19 @@
                 <div class="navbar-nav w-100">
                     <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
                         <i class="fa fa-home me-2"></i>Home</a>
-                    <a href="{{ route('products.index') }}" class="nav-item nav-link {{ request()->routeIs('products.index') ? 'active' : '' }}">
-                        <i class="fa fa-gamepad me-2"></i>Manage Product</a> 
-                    <a href="{{ route('platforms.index') }}" class="nav-item nav-link {{ request()->routeIs('platforms.index') ? 'active' : '' }}">
-                        <i class="fa fa-desktop me-2"></i>Manage Platform</a> 
-                    <a href="{{ route('genres.index') }}" class="nav-item nav-link {{ request()->routeIs('genres.index') ? 'active' : '' }}">
-                        <i class="fa fa-tags me-2"></i>Manage Genre</a>
+                    @if (Auth::check() && Auth::user()->isSeller())
+                        <a href="{{ route('products.index') }}" class="nav-item nav-link {{ request()->routeIs('products.index') ? 'active' : '' }}">
+                            <i class="fa fa-gamepad me-2"></i>Manage Product</a> 
+                        <a href="{{ route('platforms.index') }}" class="nav-item nav-link {{ request()->routeIs('platforms.index') ? 'active' : '' }}">
+                            <i class="fa fa-desktop me-2"></i>Manage Platform</a> 
+                        <a href="{{ route('genres.index') }}" class="nav-item nav-link {{ request()->routeIs('genres.index') ? 'active' : '' }}">
+                            <i class="fa fa-tags me-2"></i>Manage Genre</a> 
+                    @endif
+                    
+                    @if (Auth::check() && Auth::user()->isAdmin())
+                        <a href="{{ route('users.index') }}" class="nav-item nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}"><i class="fa fa-users me-2"></i>Quản lý Người dùng</a>
+                    @endif
+
                     @auth
                     <div class="nav-item dropdown me-3">
                         <a href="{{ route('cart.index') }}" class="nav-link">

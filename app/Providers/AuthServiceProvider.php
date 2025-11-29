@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Product; // Import Product Model
 use App\Policies\ProductPolicy; // Import ProductPolicy
@@ -21,10 +22,20 @@ class AuthServiceProvider extends ServiceProvider
     /**
      * Register any authentication / authorization services.
      */
-    public function boot(): void
+    public function boot(GateContract $gate): void
     {
         // Add this line so that Laravel can initiate essential gates
-        // without it, Laravel will not know how to create gate.
+        // without it, Laravel will not know how to generate gate.
+        // Very important: Must call registerPolicies() first
         $this->registerPolicies();
+
+        // This line help Laravel know how to generate Gate (REQUIRED)
+        // This the last fix line for this BindingResolutionException error
+        $gate->before(function ($user, $ability) {
+            // Logic admin bypass
+            if ($user->isAdmin()) {
+                return true; 
+            }
+        });
     }
 }

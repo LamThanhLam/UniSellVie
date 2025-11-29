@@ -21,8 +21,7 @@ class ProductsController extends Controller
         /** @var \App\Models\User $user */
         $user = Auth::user();
 
-        // 1. Policy Check: Only Seller/Admin can see this page
-        $this->authorize('viewAny', Product::class);
+        
 
         // Start Product query
         $query = Product::query();
@@ -146,6 +145,8 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $this->authorize('update', $product);
+        
         $request->validate([
             // Required fields
             'title' => 'required',
@@ -192,13 +193,13 @@ class ProductsController extends Controller
         }
 
         // 1. Update main fields
-        $product->update($input);
+        $product->update($request->validated());
 
         // 2. Synchronize relationships
         $product->platforms()->sync($request->input('platform_ids'));
         $product->genres()->sync($request->input('genre_ids'));
 
-        return redirect()->route('products.index')->with('success', 'This product has been updated successfully.');
+        return redirect()->route('products.index')->with('success', 'Product updated successfully.');
     }
 
     /**
@@ -206,6 +207,8 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->authorize('delete', $product);
+        
         // Delete the image file from the public folder first
         if ($product->image && File::exists(public_path('images/' . $product->image))) {
             File::delete(public_path('images/' . $product->image));

@@ -49,12 +49,13 @@
                 </div>
                 
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('home') }}" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    <a href="{{ route('products.index') }}" class="nav-item nav-link">
+                    <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
+                        <i class="fa fa-home me-2"></i>Home</a>
+                    <a href="{{ route('products.index') }}" class="nav-item nav-link {{ request()->routeIs('products.index') ? 'active' : '' }}">
                         <i class="fa fa-gamepad me-2"></i>Manage Product</a> 
-                    <a href="{{ route('platforms.index') }}" class="nav-item nav-link">
+                    <a href="{{ route('platforms.index') }}" class="nav-item nav-link {{ request()->routeIs('platforms.index') ? 'active' : '' }}">
                         <i class="fa fa-desktop me-2"></i>Manage Platform</a> 
-                    <a href="{{ route('genres.index') }}" class="nav-item nav-link">
+                    <a href="{{ route('genres.index') }}" class="nav-item nav-link {{ request()->routeIs('genres.index') ? 'active' : '' }}">
                         <i class="fa fa-tags me-2"></i>Manage Genre</a> @auth
                     <a href="{{ route('logout') }}" class="nav-item nav-link" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

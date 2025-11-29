@@ -14,9 +14,9 @@
 
         <div class="actions">
             <a href="{{ route('products.create') }}" class="btn btn-primary">Thêm Sản Phẩm Mới</a>
-            <form action="{{ route('products.index') }}" method="GET" class="search-form">
-                <input type="text" name="search" placeholder="Tìm kiếm sản phẩm..." value="{{ request('search') }}">
-                <button type="submit">Tìm Kiếm</button>
+            <form action="{{ route('products.index') }}" method="GET" class="d-none d-md-flex ms-4">
+                <input class="form-control bg-dark border-0" type="text" name="search" placeholder="Search for product..." value="{{ request('search') }}">
+                <button type="submit">Search</button>
             </form>
         </div>
 

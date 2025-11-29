@@ -62,10 +62,6 @@
                         <a href="{{ route('cart.index') }}" class="nav-link">
                             <i class="fa fa-shopping-cart"></i>Cart</a>
                     </div>
-                    <a href="{{ route('orders.index') }}" 
-                    class="nav-item nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
-                        <i class="fa fa-history me-2"></i>Order Histories
-                    </a>
                     <a href="{{ route('logout') }}" class="nav-item nav-link" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa fa-sign-out-alt me-2"></i>Logout
@@ -115,6 +111,7 @@
                             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                                     <!-- <a href="#" class="dropdown-item">My Profile</a>
                                     <a href="#" class="dropdown-item">Settings</a> -->
+                                    <a href="{{ route('orders.index') }}" class="dropdown-item">Order Histories</a>
                                     <a href="{{ route('logout') }}" class="dropdown-item"
                                         onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">

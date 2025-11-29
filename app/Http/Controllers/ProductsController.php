@@ -26,11 +26,6 @@ class ProductsController extends Controller
 
         // Start Product query
         $query = Product::query();
-
-        // 2. Filter by ownership: If the user is NOT an Admin, only show their own products.
-        if (!$user->isAdmin()) { 
-            $query->where('user_id', $user->id);
-        }
         
         // 3. Add Searching condition based on user input
         $search = $request->input('search');

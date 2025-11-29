@@ -10,11 +10,6 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    // Define Role Constants
-    const ROLE_ADMIN = 1;
-    const ROLE_SELLER = 2;
-    const ROLE_CUSTOMER = 0;
-    
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -66,17 +61,5 @@ class User extends Authenticatable
     public function products()
     {
         return $this->hasMany(Product::class);
-    }
-    
-    // Role-checking function
-    public function isAdmin()
-    {
-        return $this->role === self::ROLE_ADMIN;
-    }
-
-    public function isSeller()
-    {
-        // Admin is also count as Seller
-        return $this->role === self::ROLE_SELLER || $this->isAdmin(); 
     }
 }

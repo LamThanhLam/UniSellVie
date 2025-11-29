@@ -119,6 +119,7 @@
                             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                                     <!-- <a href="#" class="dropdown-item">My Profile</a>
                                     <a href="#" class="dropdown-item">Settings</a> -->
+                                    <a href="{{ route('orders.index') }}" class="dropdown-item">Order Histories</a>
                                     <a href="{{ route('logout') }}" class="dropdown-item"
                                         onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">

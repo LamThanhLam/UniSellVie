@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Genre;
 use App\Models\Platform;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File; // Required for file existence and deletion
 use Illuminate\Support\Facades\Storage; // Optional, but good practice
@@ -17,6 +18,16 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
+        // 1. Authorization-Check to access management page (only Seller/Admin)
+        $this->authorize('viewAny', Product::class); 
+
+        $query = Product::query();
+
+        // 2. Lọc theo chủ sở hữu (Nếu không phải Admin, chỉ thấy game của mình)
+        if (!Auth::user()->isAdmin()) {
+            $query->where('user_id', Auth::id());
+        }
+        
         // Take searching keyword from URL
         $search = $request->input('search');
 
@@ -31,7 +42,7 @@ class ProductsController extends Controller
         }
 
         // Slit result page
-        $products = $query->paginate(10);
+        $products = $query->with('platforms', 'genres')->paginate(10);
 
         // Return view with data allocated in slit page
         return view('products.index', compact('products'));
@@ -42,6 +53,8 @@ class ProductsController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Product::class); // Authority check for creating
+        
         $platforms = Platform::all(); // Get all Platforms
         $genres = Genre::all(); // Get all Genres
 
@@ -90,6 +103,9 @@ class ProductsController extends Controller
             $input['image'] = $profileImage; // Store ONLY the filename
         }
 
+        // Very important: Assign the product owner as the current user
+        $input['user_id'] = Auth::id(); // Needed
+
         // 1. Creates product
         $product = Product::create($input);
 
@@ -114,6 +130,8 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
+        $this->authorize('update', $product); // Authority check for editing
+        
         $platforms = Platform::all(); // Get all Platforms
         $genres = Genre::all(); // Get all Genres
         
@@ -129,6 +147,8 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        $this->authorize('update', $product); // Authority check for updating
+
         $request->validate([
             // Required fields
             'title' => 'required',
@@ -189,6 +209,8 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
+        $this->authorize('delete', $product); // Authority check for deleting
+
         // Delete the image file from the public folder first
         if ($product->image && File::exists(public_path('images/' . $product->image))) {
             File::delete(public_path('images/' . $product->image));

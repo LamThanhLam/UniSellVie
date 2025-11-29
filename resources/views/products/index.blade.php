@@ -50,17 +50,22 @@
                         <td>{{ $product->publisher }}</td>
                         <td>
                             <a href="{{ route('products.show', $product->id) }}">{{ $product->title }}</a>
-                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Sửa</a>
-                            <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">Xóa</button>
-                            </form>
+                            @can('update', $product)
+                                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Sửa</a>
+                            @endcan
+
+                            @can('delete', $product)
+                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');">Xóa</button>
+                                </form>
+                            @endcan
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">Không có sản phẩm nào.</td>
+                        <td colspan="5">There is no product.</td>
                     </tr>
                 @endforelse
             </tbody>

@@ -13,13 +13,14 @@ class Kernel extends HttpKernel
      */
     protected $middleware = [
         // Using Illuminate\Http\Middleware (official namespace)
+        \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Http\Middleware\HandleCors::class,
         \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
-        \Illuminate\Foundation\Http\Middleware\TrimStrings::class, // Fixed namespace
+        \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\TrustProxies::class,
         \Illuminate\Routing\Middleware\ValidatePathEncoding::class,
+        \Illuminate\Foundation\Http\Middleware\InvokeDeferredCallbacks::class,
     ];
 
     /**
@@ -29,13 +30,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Illuminate\Cookie\Middleware\EncryptCookies::class, // Fixed namespace
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\VerifyCsrfToken::class, // Custom app middleware
+            \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            \App\Http\Middleware\CheckForMaintenanceMode::class,
         ],
         'api' => [
             'throttle:api',
@@ -51,10 +51,9 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
-        'binding' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         
         // REGISTER MIDDLEWARE ADMIN
         'admin' => \App\Http\Middleware\AdminMiddleware::class, 

@@ -65,7 +65,8 @@
                     @endif
                     
                     @if (Auth::check() && Auth::user()->isAdmin())
-                        <a href="{{ route('users.index') }}" class="nav-item nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}"><i class="fa fa-users me-2"></i>Quản lý Người dùng</a>
+                        <a href="{{ route('users.index') }}" class="nav-item nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}">
+                            <i class="fa fa-users me-2"></i>Manage User</a>
                     @endif
 
                     @auth

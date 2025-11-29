@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PlatformsController;
 use App\Http\Controllers\GenresController;
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('platforms', PlatformsController::class); 
     // Add route for Genres
     Route::resource('genres', GenresController::class);
+
+    // User Management Routes (UsersController)
+    Route::get('/users', [UsersController::class, 'index'])->name('users.index');
+    Route::post('/users/{user}/update-role', [UsersController::class, 'updateRole'])->name('users.update_role');
 
     // CART: index and destroy
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

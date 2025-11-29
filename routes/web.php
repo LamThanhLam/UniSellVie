@@ -23,7 +23,7 @@ Route::get('/about', function () {
 });
 
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('products', ProductsController::class);
     // Adds route for Platforms
     Route::resource('platforms', PlatformsController::class); 
@@ -34,6 +34,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::delete('/cart/remove/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
 
+    // CART: Add product to cart (need Route Model Binding for Product)
+    Route::post('/cart/add/{product}', [CartController::class, 'store'])->name('cart.store');
+
+    // ORDERS/CHECKOUT
+    Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout.process');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+});
+
+Route::middleware(['auth'])->group(function () {
     // CART: Add product to cart (need Route Model Binding for Product)
     Route::post('/cart/add/{product}', [CartController::class, 'store'])->name('cart.store');
 

@@ -15,7 +15,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // Register Policy here
-        Product::class => ProductPolicy::class,
+        \App\Models\Product::class => \App\Policies\ProductPolicy::class,
     ];
 
     /**
@@ -23,6 +23,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Code boot() is empty by default
+        // Add this line so that Laravel can initiate essential gates
+        // without it, Laravel will not know how to create gate.
+        $this->registerPolicies();
     }
 }

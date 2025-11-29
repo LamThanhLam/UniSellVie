@@ -13,6 +13,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    const ROLE_ADMIN = 1;
+    const ROLE_SELLER = 2;
+    const ROLE_CUSTOMER = 0;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -61,5 +65,16 @@ class User extends Authenticatable
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isSeller()
+    {
+        // Admin is also Seller (to display menu)
+        return $this->role === self::ROLE_SELLER || $this->isAdmin(); 
     }
 }

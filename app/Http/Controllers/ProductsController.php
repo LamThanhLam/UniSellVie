@@ -20,12 +20,18 @@ class ProductsController extends Controller
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
-        
-        // 1. Authorization-Check to access management page (only Seller/Admin)
-        $this->authorize('viewAny', Product::class); 
+
+        // 1. Policy Check: Only Seller/Admin can see this page
+        $this->authorize('viewAny', Product::class);
 
         // Start Product query
         $query = Product::query();
+
+        // 2. Filter by ownership: If not Admin, only display their own game
+        // This code will filter the game list by seller
+        if (!$user->isAdmin()) { 
+            $query->where('user_id', $user->id);
+        }
         
         // 3. Add Searching condition based on user input
         $search = $request->input('search');
@@ -50,8 +56,6 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $this->authorize('create', Product::class); // Authority check for creating
-        
         $platforms = Platform::all(); // Get all Platforms
         $genres = Genre::all(); // Get all Genres
 
@@ -127,8 +131,6 @@ class ProductsController extends Controller
      */
     public function edit(Product $product)
     {
-        $this->authorize('update', $product); // Authority check for editing
-        
         $platforms = Platform::all(); // Get all Platforms
         $genres = Genre::all(); // Get all Genres
         
@@ -144,8 +146,6 @@ class ProductsController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $this->authorize('update', $product); // Authority check for updating
-
         $request->validate([
             // Required fields
             'title' => 'required',
@@ -206,8 +206,6 @@ class ProductsController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->authorize('delete', $product); // Authority check for deleting
-
         // Delete the image file from the public folder first
         if ($product->image && File::exists(public_path('images/' . $product->image))) {
             File::delete(public_path('images/' . $product->image));

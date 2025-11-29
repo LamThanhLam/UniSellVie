@@ -19,8 +19,15 @@ class Product extends Model
         'system_requirements',
         'content',
         'price',
-        'image'
+        'image',
+        'user_id',
     ];
+
+    // Relationship with User (Product owner)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // Adding relationships
     public function platforms()

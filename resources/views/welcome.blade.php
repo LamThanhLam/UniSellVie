@@ -57,8 +57,6 @@
                         <i class="fa fa-desktop me-2"></i>Manage Platform</a> 
                     <a href="{{ route('genres.index') }}" class="nav-item nav-link {{ request()->routeIs('genres.index') ? 'active' : '' }}">
                         <i class="fa fa-tags me-2"></i>Manage Genre</a> 
-                    <a href="{{ route('users.index') }}" class="nav-item nav-link {{ request()->routeIs('users.index') ? 'active' : '' }}">
-                        <i class="fa fa-users me-2"></i>Manage User</a>
 
                     @auth
                     <div class="nav-item dropdown me-3">

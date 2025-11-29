@@ -18,21 +18,10 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        
-
         // Start Product query
         $query = Product::query();
-
-        // 2. Filter by ownership: If not Admin, only display their own game
-        // This code will filter the game list by seller
-        if (!$user->isAdmin()) { 
-            $query->where('user_id', $user->id);
-        }
         
-        // 3. Add Searching condition based on user input
+        // Add Searching condition based on user input
         $search = $request->input('search');
 
         if ($search) {
@@ -43,7 +32,7 @@ class ProductsController extends Controller
             });
         }
 
-        // 4. Slit result page and Eager Load relationships
+        // Slit page and Eager Load relationships
         $products = $query->with('platforms', 'genres')->paginate(10);
 
         // Return view with data allocated in slit page

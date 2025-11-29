@@ -4,20 +4,25 @@
 
 @section('content')
     <div class="container">
-        <h1>Danh Sách Sản Phẩm</h1>
-
-        @if(session('success'))
-            <div class="alert">
-                {{ session('success') }}
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h1>List Of Products</h1>
+                
+                @if(session('success'))
+                    <div class="alert">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <form>
+                    <div class="actions">
+                        <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
+                        <form action="{{ route('products.index') }}" method="GET" class="d-none d-md-flex ms-4 col-sm-4 col-form-label">
+                            <input class="form-control bg-dark border-0" type="text" name="search" placeholder="Search for product..." value="{{ request('search') }}">
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </form>
             </div>
-        @endif
-
-        <div class="actions">
-            <a href="{{ route('products.create') }}" class="btn btn-primary">Thêm Sản Phẩm Mới</a>
-            <form action="{{ route('products.index') }}" method="GET" class="d-none d-md-flex ms-4">
-                <input class="form-control bg-dark border-0" type="text" name="search" placeholder="Search for product..." value="{{ request('search') }}">
-                <button type="submit">Search</button>
-            </form>
         </div>
 
         <table class="table">

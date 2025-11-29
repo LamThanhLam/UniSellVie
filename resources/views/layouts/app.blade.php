@@ -60,7 +60,12 @@
                     <a href="{{ route('platforms.index') }}" class="nav-item nav-link {{ request()->routeIs('platforms.index') ? 'active' : '' }}">
                         <i class="fa fa-desktop me-2"></i>Manage Platform</a> 
                     <a href="{{ route('genres.index') }}" class="nav-item nav-link {{ request()->routeIs('genres.index') ? 'active' : '' }}">
-                        <i class="fa fa-tags me-2"></i>Manage Genre</a> @auth
+                        <i class="fa fa-tags me-2"></i>Manage Genre</a>
+                    <a href="{{ route('orders.index') }}" 
+                    class="nav-item nav-link {{ request()->routeIs('orders.index') ? 'active' : '' }}">
+                        <i class="fa fa-history me-2"></i>Order Histories
+                    </a>
+                    @auth
                     <a href="{{ route('logout') }}" class="nav-item nav-link" 
                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa fa-sign-out-alt me-2"></i>Logout

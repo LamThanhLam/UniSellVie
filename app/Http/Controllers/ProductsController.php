@@ -18,30 +18,32 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        
         // 1. Authorization-Check to access management page (only Seller/Admin)
         $this->authorize('viewAny', Product::class); 
 
+        // Start Product query
         $query = Product::query();
 
-        // 2. Lọc theo chủ sở hữu (Nếu không phải Admin, chỉ thấy game của mình)
-        if (!Auth::user()->isAdmin()) {
-            $query->where('user_id', Auth::id());
+        // 2. Filter by ownership: If the user is NOT an Admin, only show their own products.
+        if (!$user->isAdmin()) { 
+            $query->where('user_id', $user->id);
         }
         
-        // Take searching keyword from URL
+        // 3. Add Searching condition based on user input
         $search = $request->input('search');
 
-        // Start a builder query for Product model
-        $query = Product::query();
-
-        // If there is a searching keyword, then add searching condition into query
         if ($search) {
-            $query->where('title', 'like', "%{$search}%")
-                ->orWhere('developer', 'like', "%{$search}%")
-                ->orWhere('publisher', 'like', "%{$search}%");
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('developer', 'like', "%{$search}%")
+                  ->orWhere('publisher', 'like', "%{$search}%");
+            });
         }
 
-        // Slit result page
+        // 4. Slit result page and Eager Load relationships
         $products = $query->with('platforms', 'genres')->paginate(10);
 
         // Return view with data allocated in slit page

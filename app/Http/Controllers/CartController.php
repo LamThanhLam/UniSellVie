@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CartItem;
+use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,15 @@ class CartController extends Controller
         $cartItem = CartItem::where('user_id', Auth::id())
                             ->where('product_id', $product->id)
                             ->first();
+        
+        // Check if the product has already been inside User Library (Order History)
+        $isOwned = OrderItem::where('user_id', Auth::id())
+                        ->where('product_id', $product->id)
+                        ->exists();
+
+        if ($isOwned) {
+            return redirect()->route('shop.index')->with('error', 'You have already owned this game!');
+        }
 
         if ($cartItem) {
             // For a game store, we prevent adding the same item multiple times

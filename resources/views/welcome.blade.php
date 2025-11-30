@@ -46,7 +46,6 @@
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="ms-3">
                         <h6 class="mb-0">{{ Auth::user()->name ?? 'Guest' }}</h6> 
-                        <!-- <span>{{ Auth::check() ? 'Admin' : 'Guest' }}</span>  -->
                     </div>
                 </div>
                 

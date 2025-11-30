@@ -5,7 +5,6 @@ use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PlatformsController;
 use App\Http\Controllers\GenresController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\LibraryController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,9 +42,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout', [OrderController::class, 'checkout'])->name('checkout.process');
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
-
-    // Route for library (require log in)
-    Route::get('/library', [LibraryController::class, 'index'])->name('library.index');
 });
 
 

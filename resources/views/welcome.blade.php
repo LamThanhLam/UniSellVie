@@ -60,10 +60,6 @@
                         <i class="fa fa-tags me-2"></i>Manage Genre</a> 
 
                     @auth
-                    <a href="{{ route('user.library') }}" 
-                    class="nav-item nav-link {{ request()->routeIs('user.library') ? 'active' : '' }}">
-                        <i class="fa fa-book me-2"></i>Library
-                    </a>
                     <div class="nav-item dropdown me-3">
                         <a href="{{ route('cart.index') }}" class="nav-link">
                             <i class="fa fa-shopping-cart"></i>Cart</a>
@@ -117,7 +113,6 @@
                             <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                                     <!-- <a href="#" class="dropdown-item">My Profile</a>
                                     <a href="#" class="dropdown-item">Settings</a> -->
-                                    <a href="{{ route('user.library') }}" class="dropdown-item">Library</a>
                                     <a href="{{ route('orders.index') }}" class="dropdown-item">Order Histories</a>
                                     <a href="{{ route('logout') }}" class="dropdown-item"
                                         onclick="event.preventDefault();

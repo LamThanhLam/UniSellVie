@@ -14,9 +14,11 @@ class CartController extends Controller
     public function store(Request $request, Product $product)
     {
         // CHECK OWNERSHIP: Prevent re-purchase if the game is in the user's library
-        $isOwned = OrderItem::where('user_id', Auth::id())
-                            ->where('product_id', $product->id)
-                            ->exists();
+        $isOwned = \App\Models\OrderItem::where('product_id', $product->id)
+                        ->whereHas('order', function($query) { // Use whereHas
+                            $query->where('user_id', Auth::id());
+                        })
+                        ->exists();
 
         if ($isOwned) {
             return redirect()->back()->with('error', 'You have already owned this game! Check your Library.');
@@ -32,7 +34,7 @@ class CartController extends Controller
             return redirect()->route('cart.index')->with('warning', 'This game is already in your cart.');
         } else {
             // Create a new cart item
-            
+
             // Get price directly from Product model (safer than relying on external request data)
             $productPrice = $product->price;
 

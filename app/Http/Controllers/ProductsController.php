@@ -120,9 +120,11 @@ class ProductsController extends Controller
         // Only check if user has logged in
         if (Auth::check()) {
             // Check if selected product is in order history (Library) of user
-            $isOwned = OrderItem::where('user_id', Auth::id())
-                                ->where('product_id', $product->id)
-                                ->exists();
+            $isOwned = \App\Models\OrderItem::where('product_id', $product->id)
+                                ->whereHas('order', function($query) { // Use whereHas to query the relationship
+                                $query->where('user_id', Auth::id());
+                            })
+                            ->exists();
         }
 
         // Transmit variable $isOwned into View

@@ -13,7 +13,7 @@
             </div>
             <div class="col-md-8">
                 <h1>{{ $product->title }}</h1>
-                <p><strong>Giá:</strong> {{ number_format($product->price) }} VNĐ</p>
+                <p><strong>Giá:</strong> {{ number_format($product->price) }} $</p>
                 </div>
         </div>
 
@@ -67,17 +67,30 @@
             </div>
             <div class="card-footer">
                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Sửa</a>
-                @auth
-                    <form action="{{ route('cart.store', $product->id) }}" method="POST" class="mt-3">
-                        @csrf
-                        <button type="submit" class="btn btn-success btn-lg">
-                            {{ number_format($product->price) }} VNĐ - Thêm vào Giỏ hàng
-                        </button>
-                    </form>
+                
+                {{-- Check if user has logged in --}}
+                @auth 
+                    @if ($isOwned)
+                        {{-- If user have already owned this game --}}
+                        <a href="{{ route('library.index') }}" class="btn btn-success btn-lg disabled" disabled>
+                            <i class="fas fa-check"></i> Already owned in Library
+                        </a>
+                    @else
+                        {{-- If not purchased, display add to cart button --}}
+                        <form action="{{ route('cart.store', $product->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-cart-plus"></i> Add to cart ({{ number_format($product->price, 0, ',', '.') }} $)
+                            </button>
+                        </form>
+                    @endif
                 @else
-                    <p class="mt-3 text-danger">Vui lòng <a href="{{ route('login') }}">Đăng nhập</a> để mua sản phẩm.</p>
+                    {{-- If users have not logged in, encourage them to login to purchase --}}
+                    <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
+                        Login to purchase ({{ number_format($product->price, 0, ',', '.') }} $)
+                    </a>
                 @endauth
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Quay lại</a>
+                <a href="{{ route('products.index') }}" class="btn btn-secondary">Return</a>
             </div>
         </div>
     </div>

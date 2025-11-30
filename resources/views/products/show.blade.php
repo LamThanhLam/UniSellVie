@@ -72,9 +72,9 @@
                 @auth 
                     @if ($isOwned)
                         {{-- If user have already owned this game --}}
-                        <a href="{{ route('library.index') }}" class="btn btn-success btn-lg disabled" disabled>
-                            <i class="fas fa-check"></i> Already owned in Library
-                        </a>
+                        <button class="btn btn-success btn-lg disabled" disabled>
+                            <i class="fas fa-check"></i> Already owned
+                        </button>
                     @else
                         {{-- If not purchased, display add to cart button --}}
                         <form action="{{ route('cart.store', $product->id) }}" method="POST">

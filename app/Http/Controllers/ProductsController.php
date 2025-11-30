@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Genre;
 use App\Models\Platform;
+use App\Models\OrderItem;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -111,7 +112,21 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        // Get product detail, load essential relationships
+        $product->load('platforms', 'genres');
+
+        $isOwned = false;
+
+        // Only check if user has logged in
+        if (Auth::check()) {
+            // Check if selected product is in order history (Library) of user
+            $isOwned = OrderItem::where('user_id', Auth::id())
+                                ->where('product_id', $product->id)
+                                ->exists();
+        }
+
+        // Transmit variable $isOwned into View
+        return view('products.show', compact('product', 'isOwned'));
     }
 
     /**

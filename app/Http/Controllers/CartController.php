@@ -13,28 +13,33 @@ class CartController extends Controller
     // 1. Add product to cart
     public function store(Request $request, Product $product)
     {
-        // Check if the product is already in the user's cart
+        // CHECK OWNERSHIP: Prevent re-purchase if the game is in the user's library
+        $isOwned = OrderItem::where('user_id', Auth::id())
+                            ->where('product_id', $product->id)
+                            ->exists();
+
+        if ($isOwned) {
+            return redirect()->back()->with('error', 'You have already owned this game! Check your Library.');
+        }
+
+        // CHECK IF ALREADY IN CART (Only one copy of a game is allowed in the cart)
         $cartItem = CartItem::where('user_id', Auth::id())
                             ->where('product_id', $product->id)
                             ->first();
-        
-        // Check if the product has already been inside User Library (Order History)
-        $isOwned = OrderItem::where('user_id', Auth::id())
-                        ->where('product_id', $product->id)
-                        ->exists();
-
-        if ($isOwned) {
-            return redirect()->route('shop.index')->with('error', 'You have already owned this game!');
-        }
 
         if ($cartItem) {
             // For a game store, we prevent adding the same item multiple times
             return redirect()->route('cart.index')->with('warning', 'This game is already in your cart.');
         } else {
             // Create a new cart item
+            
+            // Get price directly from Product model (safer than relying on external request data)
+            $productPrice = $product->price;
+
             CartItem::create([
                 'user_id' => Auth::id(),
                 'product_id' => $product->id,
+                'price' => $productPrice,
                 'quantity' => 1,
             ]);
             return redirect()->route('cart.index')->with('success', 'Added ' . $product->title . ' to your cart!');

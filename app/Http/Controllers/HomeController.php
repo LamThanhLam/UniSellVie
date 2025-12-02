@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -21,8 +23,26 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        // Get list of products (like in management page, but not admin filter)
+        $query = Product::query();
+
+        // Search-logic (If there is a search form on homepage)
+        $search = $request->input('search');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('developer', 'like', "%{$search}%")
+                  ->orWhere('publisher', 'like', "%{$search}%");
+            });
+        }
+        
+        // 2. Get result (Load relationship platforms & genres)
+        $products = $query->with('platforms', 'genres')->paginate(10);
+
+        // 3. Transmit $products to home.blade.php
+        return view('home', compact('products'));
     }
 }

@@ -68,7 +68,6 @@ class ProductsController extends Controller
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'image' => 'nullable|max:2048', // Validation: ONLY TEST FILE SIZE
             
             // Validation for relationships
             'platform_ids' => 'required|array', 
@@ -78,20 +77,6 @@ class ProductsController extends Controller
         ]);
 
         $input = $request->except(['platform_ids', 'genre_ids']);
-
-        // CRITICAL FIX: Processing uploaded image and ensuring it saves to the PUBLIC folder
-        if ($image = $request->file('image')) {
-            $destinationPath = public_path('images/'); // CORRECT PATH: points to public/images
-            
-            // Create directory if it doesn't exist
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
-
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $input['image'] = $profileImage; // Store ONLY the filename
-        }
 
         // Very important: Assign the product owner as the current user
         $input['user_id'] = Auth::id(); // Needed
@@ -165,7 +150,6 @@ class ProductsController extends Controller
             'description' => 'nullable',
             'content' => 'nullable',
             'system_requirements' => 'nullable',
-            'image' => 'nullable|max:2048', // Validation: ONLY TEST FILE SIZE
 
             // Validation for relationships
             'platform_ids' => 'required|array',
@@ -175,28 +159,6 @@ class ProductsController extends Controller
         ]);
 
         $input = $request->except(['platform_ids', 'genre_ids']);
-
-        // Process image uploading
-        if ($image = $request->file('image')) {
-            $destinationPath = public_path('images/'); // CORRECT PATH: points to public/images
-
-            // Ensure the directory exists
-            if (!File::isDirectory($destinationPath)) {
-                File::makeDirectory($destinationPath, 0777, true, true);
-            }
-            
-            // Logic for DELETE OLD IMAGE (Only delete if a file exists and is being replaced)
-            if ($product->image && File::exists(public_path('images/' . $product->image))) {
-                File::delete(public_path('images/' . $product->image));
-            }
-            
-            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
-            $image->move($destinationPath, $profileImage);
-            $input['image'] = $profileImage;
-        } else {
-            // Keep the old image if there is no new image uploaded
-            unset($input['image']);
-        }
 
         // 1. Update main fields
         $product->update($request->validated());
@@ -214,11 +176,6 @@ class ProductsController extends Controller
     public function destroy(Product $product)
     {
         $this->authorize('delete', $product);
-        
-        // Delete the image file from the public folder first
-        if ($product->image && File::exists(public_path('images/' . $product->image))) {
-            File::delete(public_path('images/' . $product->image));
-        }
         
         $product->delete();
 

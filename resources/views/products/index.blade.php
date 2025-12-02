@@ -28,7 +28,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Ảnh</th> <th>Tiêu đề</th>
+                    <th>Tiêu đề</th>
                     <th>Ngày phát hành</th>
                     <th>Nhà phát triển</th>
                     <th>Nhà xuất bản</th>
@@ -37,13 +37,7 @@
             </thead>
             <tbody>
                 @forelse ($products as $product)
-                    <tr>
-                    <td> @if ($product->image)
-                            <img src="{{ asset('images/' . $product->image) }}" width="50px" height="50px" alt="Product image">
-                        @else
-                            <img src="{{ asset('images/default.png') }}" width="50px" height="50px" alt="No image">
-                        @endif
-                    </td>    
+                    <tr>  
                     <td><a href="{{ route('products.show', $product->id) }}">{{ $product->title }}</a></td>
                         <td>{{ $product->releaseDate->format('d/m/Y') }}</td>
                         <td>{{ $product->developer }}</td>

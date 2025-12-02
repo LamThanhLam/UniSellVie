@@ -4,13 +4,6 @@
     <div class="container">
         <h1>Thông Tin Chi Tiết Sản Phẩm</h1>
         <div class="row">
-            <div class="col-md-4 mb-4">
-                @if ($product->image)
-                    <img src="{{ asset('images/' . $product->image) }}" class="img-fluid rounded" alt="{{ $product->title }}">
-                @else
-                    <img src="{{ asset('images/default.png') }}" class="img-fluid rounded" alt="Không có ảnh">
-                @endif
-            </div>
             <div class="col-md-8">
                 <h1>{{ $product->title }}</h1>
                 <p><strong>Giá:</strong> {{ number_format($product->price) }} $</p>

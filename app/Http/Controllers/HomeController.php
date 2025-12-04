@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Genre;
+use App\Models\Platform;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,5 +47,29 @@ class HomeController extends Controller
 
         // 3. Transmit $products to home.blade.php
         return view('home', compact('products'));
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(Product $product)
+    {
+        // Get product detail, load essential relationships
+        $product->load('platforms', 'genres');
+
+        $isOwned = false;
+
+        // Only check if user has logged in
+        if (Auth::check()) {
+            // Check if selected product is in order history (Library) of user
+            $isOwned = \App\Models\OrderItem::where('product_id', $product->id)
+                                ->whereHas('order', function($query) { // Use whereHas to query the relationship
+                                $query->where('user_id', Auth::id());
+                            })
+                            ->exists();
+        }
+
+        // Transmit variable $isOwned into View
+        return view('home.homeProductShow', compact('product', 'isOwned'));
     }
 }

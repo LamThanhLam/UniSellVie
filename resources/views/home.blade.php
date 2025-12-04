@@ -34,10 +34,10 @@
             <tbody>
                 @forelse ($products as $product)
                     <tr>  
-                    <td><a href="{{ route('products.show', $product->id) }}">{{ $product->title }}</a></td>
+                    <td><a href="{{ route('home.homeProductShow', $product->id) }}">{{ $product->title }}</a></td>
                         <td>{{ $product->releaseDate->format('d/m/Y') }}</td>
                         <td>
-                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-primary"><i class="fa fa-eye me"></i></a>
+                            <a href="{{ route('home.homeProductShow', $product->id) }}" class="btn btn-primary"><i class="fa fa-eye me"></i></a>
                             @can('update', $product)
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary"><i class="fa fa-pen me"></i></a>
                             @endcan

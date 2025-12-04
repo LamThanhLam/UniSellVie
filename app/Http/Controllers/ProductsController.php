@@ -138,7 +138,7 @@ class ProductsController extends Controller
     {
         $this->authorize('update', $product);
         
-        $request->validate([
+        $validatedData = $request->validate([
             // Required fields
             'title' => 'required',
             'developer' => 'required',
@@ -158,10 +158,11 @@ class ProductsController extends Controller
             'genre_ids.*' => 'exists:genres,id',
         ]);
 
-        $input = $request->except(['platform_ids', 'genre_ids']);
+        $dataToUpdate = $validatedData;
+        unset($dataToUpdate['platform_ids'], $dataToUpdate['genre_ids']);
 
         // 1. Update main fields
-        $product->update($request->validated());
+        $product->update($dataToUpdate);
 
         // 2. Synchronize relationships
         $product->platforms()->sync($request->input('platform_ids'));

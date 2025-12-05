@@ -15,7 +15,7 @@
                 {{ $product->title }}
             </div> -->
             <div class="card-body">
-                <p><strong>Released date:</strong> {{ $product->releaseDate->format('d/m/Y') }}</p>
+                <p><strong>Released date:</strong> {{ $product->releaseDate->format('m/d/Y') }}</p>
                 <p><strong>Developer:</strong> {{ $product->developer }}</p>
                 <p><strong>Publisher:</strong> {{ $product->publisher }}</p>
                 <p><strong>Description:</strong> {{ $product->description }}</p>
@@ -55,7 +55,7 @@
                 <div>
                     {!! nl2br(e($product->system_requirements)) !!}
                 </div>
-                <p><strong>Giá:</strong> {{ number_format($product->price, 2) }}</p>
+                <p><strong>Price:</strong> {{ number_format($product->price, 2) }}</p>
             </div>
             <div class="card-footer">
                 {{-- Check if user has logged in --}}

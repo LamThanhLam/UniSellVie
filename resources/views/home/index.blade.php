@@ -25,7 +25,7 @@
     <!-- Display products as table -->
     <div class="row mt-3">
         <div class="col-12">
-            <table class="table table-bordered table-dark">
+            <table class="table table-bordered table-dark table-hover">
                 <thead>
                     <tr>
                         <th width="40%">Title</th>

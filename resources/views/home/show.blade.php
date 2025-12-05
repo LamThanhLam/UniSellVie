@@ -16,7 +16,7 @@
             </div> -->
             <div class="col-sm-12 col-xl-10">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form>
+                    
                         <p><strong>Released date:</strong> {{ $product->releaseDate->format('m/d/Y') }}</p>
                         <p><strong>Developer:</strong> {{ $product->developer }}</p>
                         <p><strong>Publisher:</strong> {{ $product->publisher }}</p>
@@ -87,7 +87,7 @@
                             </a>
                         @endauth
                         <a href="{{ route('home.index') }}" class="btn btn-secondary">Return</a>
-                    </form>
+                    
                 </div>
             </div>
         </div>

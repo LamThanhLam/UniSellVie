@@ -70,7 +70,8 @@
                                         <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');"><i class="fa fa-trash me-0"></i> Delete</button>
+                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product?');">
+                                                <i class="fa fa-trash me-0"></i> Delete</button>
                                         </form>
                                     @endcan
                                 </td>

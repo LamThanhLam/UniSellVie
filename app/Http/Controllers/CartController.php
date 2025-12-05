@@ -14,8 +14,7 @@ class CartController extends Controller
     public function store(Request $request, Product $product)
     {
         // CHECK OWNERSHIP: Prevent re-purchase if the game is in the user's library
-        $isOwned = \App\Models\OrderItem::where('product_id', Auth::id())
-                                        ->where('product_id', $product->id)
+        $isOwned = \App\Models\OrderItem::where('product_id', $product->id)
                                         ->whereHas('order', function($query) { // Use whereHas
                                             $query->where('user_id', Auth::id());
                                         })

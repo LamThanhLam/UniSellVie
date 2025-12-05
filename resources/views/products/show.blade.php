@@ -16,7 +16,7 @@
             </div> -->
             <div class="col-sm-12 col-xl-10">
                 <div class="bg-secondary rounded h-100 p-4">
-                    <form>
+                    
                         <p><strong>Released date:</strong> {{ $product->releaseDate->format('m/d/Y') }}</p>
                         <p><strong>Developer:</strong> {{ $product->developer }}</p>
                         <p><strong>Publisher:</strong> {{ $product->publisher }}</p>
@@ -68,7 +68,7 @@
                             <a href="{{ route('products.edit', $product->id) }}" class="btn btn-info btn-sm">
                             <i class="fa fa-pen me-0"></i> Update</a>
                         @endcan
-                        {{-- Check if user has logged in --}}
+                        <!-- {{-- Check if user has logged in --}}
                         @auth 
                             @if ($isOwned)
                                 {{-- If user have already owned this game --}}
@@ -89,9 +89,9 @@
                             <a href="{{ route('login') }}" class="btn btn-primary btn-lg">
                                 Login to purchase ({{ number_format($product->price, 0, ',', '.') }} $)
                             </a>
-                        @endauth
+                        @endauth -->
                         <a href="{{ route('products.index') }}" class="btn btn-info btn-sm">Return</a>
-                    </form>
+                    
                 </div>
             </div>
         </div>

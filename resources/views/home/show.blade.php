@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h1>{{ $product->title }}</h1>
-                <p><strong>Giá:</strong> {{ number_format($product->price) }} $</p>
+                <p><strong>Price:</strong> {{ number_format($product->price) }} $</p>
                 </div>
         </div>
 
@@ -15,32 +15,32 @@
                 {{ $product->title }}
             </div> -->
             <div class="card-body">
-                <p><strong>Ngày phát hành:</strong> {{ $product->releaseDate->format('m/d/Y') }}</p>
-                <p><strong>Nhà phát triển:</strong> {{ $product->developer }}</p>
-                <p><strong>Nhà xuất bản:</strong> {{ $product->publisher }}</p>
-                <p><strong>Mô tả ngắn:</strong> {{ $product->description }}</p>
+                <p><strong>Released date:</strong> {{ $product->releaseDate->format('d/m/Y') }}</p>
+                <p><strong>Developer:</strong> {{ $product->developer }}</p>
+                <p><strong>Publisher:</strong> {{ $product->publisher }}</p>
+                <p><strong>Description:</strong> {{ $product->description }}</p>
 
                 {{-- Display Platforms --}}
                 <p>
-                    <strong>Nền tảng:</strong>
+                    <strong>Platforms:</strong>
                     @if ($product->platforms->count())
                         @foreach ($product->platforms as $platform)
                             <span class="badge bg-secondary">{{ $platform->name }}</span>
                         @endforeach
                     @else
-                        <span>Chưa có nền tảng nào được chỉ định.</span>
+                        <span>There is no assigned platform.</span>
                     @endif
                 </p>
 
                 {{-- Display Genres --}}
                 <p>
-                    <strong>Thể loại:</strong>
+                    <strong>Genres:</strong>
                     @if ($product->genres->count())
                         @foreach ($product->genres as $genre)
                             <span class="badge bg-info">{{ $genre->name }}</span>
                         @endforeach
                     @else
-                        <span>Chưa có thể loại nào được chỉ định.</span>
+                        <span>There is no assigned genre.</span>
                     @endif
                 </p>
 
@@ -55,10 +55,9 @@
                 <div>
                     {!! nl2br(e($product->system_requirements)) !!}
                 </div>
-                <p><strong>Price:</strong> {{ number_format($product->price, 2) }}</p>
+                <p><strong>Giá:</strong> {{ number_format($product->price, 2) }}</p>
             </div>
             <div class="card-footer">
-                
                 {{-- Check if user has logged in --}}
                 @auth 
                     @if ($isOwned)
@@ -81,7 +80,7 @@
                         Login to purchase ({{ number_format($product->price, 0, ',', '.') }} $)
                     </a>
                 @endauth
-                <a href="{{ route('home.home') }}" class="btn btn-secondary">Return</a>
+                <a href="{{ route('home.index') }}" class="btn btn-secondary">Return</a>
             </div>
         </div>
     </div>

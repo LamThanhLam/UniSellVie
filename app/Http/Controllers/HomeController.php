@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use App\Models\Genre;
-use App\Models\Platform;
+// use App\Models\Genre;
+// use App\Models\Platform;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // /**
+    //  * Create a new controller instance.
+    //  *
+    //  * @return void
+    //  */
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -43,10 +43,12 @@ class HomeController extends Controller
         }
         
         // 2. Get result (Load relationship platforms & genres)
-        $products = $query->with('platforms', 'genres')->paginate(10);
+        $products = $query->with('platforms', 'genres')
+                          ->orderBy('releaseDate', 'desc') // Sort by latest released date
+                          ->paginate(12);
 
         // 3. Transmit $products to home.blade.php
-        return view('home', compact('products'));
+        return view('home.index', compact('products'));
     }
 
     /**
@@ -62,7 +64,7 @@ class HomeController extends Controller
         // Only check if user has logged in
         if (Auth::check()) {
             // Check if selected product is in order history (Library) of user
-            $isOwned = \App\Models\OrderItem::where('product_id', $product->id)
+            $isOwned = OrderItem::where('product_id', $product->id)
                                 ->whereHas('order', function($query) { // Use whereHas to query the relationship
                                 $query->where('user_id', Auth::id());
                             })
@@ -70,6 +72,6 @@ class HomeController extends Controller
         }
 
         // Transmit variable $isOwned into View
-        return view('home.homeProductShow', compact('product', 'isOwned'));
+        return view('home.show', compact('product', 'isOwned'));
     }
 }

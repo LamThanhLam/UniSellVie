@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\PlatformsController;
@@ -10,13 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/homeProductShow', [App\Http\Controllers\HomeController::class, 'show'])->name('home');
-
-
-Route::get('/', function () {
-    return view('welcome');
-});
+// Homepage
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+// The published product details page
+Route::get('/product/{product}', [HomeController::class, 'show'])->name('home.show');
 
 //About
 Route::get('/about', function () {

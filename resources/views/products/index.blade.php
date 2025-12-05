@@ -1,29 +1,29 @@
-
-
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-secondary rounded h-100 p-4">
-                <h1>List Of Products</h1>
-                
-                @if(session('success'))
-                    <div class="alert">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <form>
-                    <div class="actions">
-                        <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
-                        <form action="{{ route('products.index') }}" method="GET" class="d-none d-md-flex ms-4 col-sm-4 col-form-label">
-                            <input class="form-control bg-dark border-0" type="text" name="search" placeholder="Search for product..." value="{{ request('search') }}">
-                            <button type="submit">Search</button>
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4">
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-secondary rounded h-100 p-4">
+                    <h1>List Of Products</h1>
+                    
+                    @if(session('success'))
+                        <div class="alert">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    <form>
+                        <div class="actions">
+                            <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
+                        </div>
+                        <form action="{{ route('home.index') }}" method="GET" class="d-flex align-items-center mb-4">
+                            <input class="form-control bg-dark border-0 me-2" type="text" name="search" placeholder="Search for product..." value="{{ request('search') }}">
+                            <button type="submit" class="btn btn-primary">Search</button>
                         </form>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </div>    
 
         <table class="table">
             <thead>

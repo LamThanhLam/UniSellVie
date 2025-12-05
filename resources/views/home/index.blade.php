@@ -44,7 +44,7 @@
                             </td>
                             <td>{{ $product->releaseDate->format('m/d/Y') }}</td>
                             <td>{{ $product->developer }}</td>
-                            <td>{{ number_format($product->price) }} VNĐ</td>
+                            <td>{{ number_format($product->price) }} $</td>
                             <td>
                                 <!-- View button (detail) and purchase button (simulated) -->
                                 <a href="{{ route('home.show', $product->id) }}" class="btn btn-info btn-sm">

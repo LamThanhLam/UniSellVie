@@ -58,7 +58,7 @@
                                 <td>{{ $product->developer }}</td>
                                 <td>{{ number_format($product->price) }} $</td>
                                 <td>
-                                    <a href="{{ route('home.show', $product->id) }}" class="btn btn-info btn-sm">
+                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-info btn-sm">
                                         <i class="fa fa-eye me-0"></i> View
                                     </a>
                                     @can('update', $product)

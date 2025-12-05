@@ -44,18 +44,11 @@
         <!-- Sidebar area -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="{{ url('/') }}" class="navbar-brand mx-4 mb-3"> <h3 class="text-primary"></i>UniSellVie</h3>
+                <a href="{{ route('home.index') }}" class="navbar-brand mx-4 mb-3"> <h3 class="text-primary"></i>UniSellVie</h3>
                 </a>
                 
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="ms-3">
-                        <h6 class="mb-0">{{ Auth::user()->name ?? 'Guest' }}</h6> 
-                        <!-- <span>{{ Auth::check() ? 'Admin' : 'Guest' }}</span>  -->
-                    </div>
-                </div>
-                
                 <div class="navbar-nav w-100">
-                    <a href="{{ route('home') }}" class="nav-item nav-link {{ request()->routeIs('home.index') ? 'active' : '' }}">
+                    <a href="{{ route('home.index') }}" class="nav-item nav-link {{ request()->routeIs('home.index') ? 'active' : '' }}">
                         <i class="fa fa-home me-2"></i>Home</a>
                     <a href="{{ route('products.index') }}" class="nav-item nav-link {{ request()->routeIs('products.index') ? 'active' : '' }}">
                         <i class="fa fa-gamepad me-2"></i>Manage Product</a> 

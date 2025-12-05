@@ -46,7 +46,7 @@
 
                         {{-- 4. PRICE --}}
                         <div class="form-group mb-3">
-                            <label for="price">Price (VNĐ):</label>
+                            <label for="price">Price ($):</label>
                             <input type="number" step="0.01" name="price" class="form-control bg-dark border-0" value="{{ old('price', $product->price) }}" required>
                             @error('price') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>

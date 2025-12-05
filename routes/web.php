@@ -17,9 +17,9 @@ Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/product/{product}', [HomeController::class, 'show'])->name('home.show');
 
 //About
-Route::get('/about', function () {
-    return view('about');
-});
+// Route::get('/about', function () {
+//     return view('about');
+// });
 
 
 Route::middleware(['auth'])->group(function () {

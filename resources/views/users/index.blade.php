@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="mb-4">Quản lý Vai trò Người dùng</h1>
+    <h1 class="mb-4">User Role Management</h1>
 
     @if (session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -15,10 +15,10 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Tên</th>
+                <th>Name</th>
                 <th>Email</th>
-                <th>Vai trò hiện tại</th>
-                <th>Hành động</th>
+                <th>Current role</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -41,7 +41,7 @@
                             <option value="2" {{ $user->role == 2 ? 'selected' : '' }}>Seller</option>
                             <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Customer</option>
                         </select>
-                        <button type="submit" class="btn btn-sm btn-info">Cập nhật</button>
+                        <button type="submit" class="btn btn-sm btn-info">Update</button>
                     </form>
                 </td>
             </tr>

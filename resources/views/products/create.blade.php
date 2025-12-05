@@ -1,15 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container-fluid pt-4 px-4">
-    <div class="col-sm-12 col-xl-10">
-        <div class="bg-secondary rounded h-100 p-4">    
-            <h1>Add New Game</h1>
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4"> 
+            <h1 class="mb-4">Add New Game</h1>
 
             @if ($errors->any())
-                <div>
-                    <strong>Error:</strong>
+                <div class="alert alert-danger">
+                    <strong>Error:</strong> Please check the input information again.
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -20,130 +19,130 @@
 
             <form action="{{ route('products.store') }}" method="POST">
                 @csrf
-                <div class="row mb-3">
-                    <label for="title" class="col-sm-2 col-form-label">Titile:</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
-                    </div>
-                    @error('title') <span class="error">{{ $message }}</span> @enderror
-                </div>
                 
-                <!-- Calendar area -->
-                <div class="row mb-3">
-                    <label for="releaseDate" class="col-sm-2 col-form-label">Release date:</label>
-                    
-                    <div class="col-md-6 p-0"> 
-                        <div class="input-group date" id="datetimepicker" data-target-input="nearest">
-                            
-                            <input type="text" 
-                                class="form-control datetimepicker-input bg-dark border-0" 
-                                name="releaseDate" 
-                                value="{{ old('releaseDate') }}" 
-                                data-target="#datetimepicker" 
-                                required/>
-                            
-                            <div class="input-group-append" 
-                                data-target="#datetimepicker" 
-                                data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        {{-- 1. TITLE --}}
+                        <div class="form-group mb-3">
+                            <label for="title" class="form-label">Title:</label>
+                            <input type="text" class="form-control bg-dark border-0" id="title" name="title" value="{{ old('title') }}" required>
+                            @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+
+                        {{-- 2. RELEASE DATE (DATE PICKER) --}}
+                        <div class="form-group mb-3">
+                            <label for="releaseDate" class="form-label">Release date:</label>
+                            <div class="col-md-8 p-0"> 
+                                <div class="input-group date" id="datetimepicker" data-target-input="nearest">
+                                    <input type="text" 
+                                        class="form-control datetimepicker-input bg-dark border-0" 
+                                        name="releaseDate" 
+                                        value="{{ old('releaseDate') }}" 
+                                        data-target="#datetimepicker" 
+                                        required/>
+                                    <div class="input-group-append" 
+                                        data-target="#datetimepicker" 
+                                        data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                                @error('releaseDate') <span class="error text-danger">{{ $message }}</span> @enderror
                             </div>
                         </div>
-                    </div>
-                    @error('releaseDate') <span class="error text-danger">{{ $message }}</span> @enderror
-                </div>
 
-                <script>
-                    $(document).ready(function() {
-                        // Initiate Datepicker, only allow picking date
-                        $('#datetimepicker').datetimepicker({
-                            format: 'MM/DD/YYYY', // example: 11/04/2025
-                            viewMode: 'days', // Start at date picking mode
-                            useCurrent: false, // Not picking current date
-                            closeOnSelect: false,
-                            sideBySide: false, // Turn off the mode of picking date and hour at the same time
-
-                            buttons: {
-                                showToday: true,  // Add "Today" button
-                                showClear: true,  // Add "Delete" button
-                                showClose: true, // Add "Close" button (work like a confirm button)
-                                showToggle: false, // Turn off toggle Date/Time
-                                showTime: false,   // Turn off display button off Time
-                            },
-                            icons: {
-                                date: 'fa fa-calendar',
-                                up: 'fa fa-arrow-up',
-                                down: 'fa fa-arrow-down',
-                                previous: 'fa fa-chevron-left',
-                                next: 'fa fa-chevron-right',
-                                today: 'fa fa-crosshairs',
-                                clear: 'fa fa-trash'
-                            },
-                            // This is an important option to erase hour
-                            // Tempus Dominus will automatically filter out the hour if the format does not carry hour/minute
-                        });
-                    });
-                </script>
-                <!-- End of calendar area -->
-
-                <div class="row mb-3">
-                    <label for="developer" class="col-sm-2 col-form-label">Developer:</label>
-                    <input type="text" class="form-control" id="developer" name="developer" value="{{ old('developer') }}" required>
-                    @error('developer') <span class="error">{{ $message }}</span> @enderror
-                </div>
-                <div class="row mb-3">
-                    <label for="publisher" class="col-sm-2 col-form-label">Publisher:</label>
-                    <input type="text" class="form-control" id="publisher" name="publisher" value="{{ old('publisher') }}" required>
-                    @error('publisher') <span class="error">{{ $message }}</span> @enderror
-                </div>
-                <div class="row mb-3">
-                    <label for="description" class="col-sm-2 col-form-label">Description:</label>
-                    <textarea id="description" class="form-control" name="description">{{ old('description') }}</textarea>
-                    @error('description') <span class="error">{{ $message }}</span> @enderror
-                </div>
-                <div class="form-group mb-4">
-                    <label><strong>Platforms:</strong></label><br>
-                    @foreach ($platforms as $platform)
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="platform_ids[]" id="platform_{{ $platform->id }}" value="{{ $platform->id }}">
-                            <label class="form-check-label" for="platform_{{ $platform->id }}">{{ $platform->name }}</label>
+                        {{-- 3. DEVELOPER --}}
+                        <div class="form-group mb-3">
+                            <label for="developer" class="form-label">Developer:</label>
+                            <input type="text" class="form-control bg-dark border-0" id="developer" name="developer" value="{{ old('developer') }}" required>
+                            @error('developer') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
-                    @endforeach
-                    @error('platform_ids')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="form-group mb-4">
-                    <label><strong>Genres:</strong></label><br>
-                    @foreach ($genres as $genre)
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="genre_ids[]" id="genre_{{ $genre->id }}" value="{{ $genre->id }}">
-                            <label class="form-check-label" for="genre_{{ $genre->id }}">{{ $genre->name }}</label>
+                        {{-- 4. PUBLISHER --}}
+                        <div class="form-group mb-3">
+                            <label for="publisher" class="form-label">Publisher:</label>
+                            <input type="text" class="form-control bg-dark border-0" id="publisher" name="publisher" value="{{ old('publisher') }}" required>
+                            @error('publisher') <span class="text-danger">{{ $message }}</span> @enderror
                         </div>
-                    @endforeach
-                    @error('genre_ids')
-                        <div class="text-danger">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="content" class="col-sm-2 col-form-label">About This Game</label>
-                    <textarea name="content" class="form-control" id="content" class="form-control" rows="8">{{ $product->content ?? '' }}</textarea>
-                </div>
 
-                <div class="form-group">
-                    <label for="system_requirements" class="col-sm-2 col-form-label">System Requirements</label>
-                    <textarea name="system_requirements" class="form-control" id="system_requirements" class="form-control" rows="4">{{ $product->system_requirements ?? '' }}</textarea>
-                </div>
-                <div class="form-group">
-                    <label for="price" class="col-sm-2 col-form-label">Price</label>
-                    <input type="number" class="form-control" step="0.01" name="price" id="price" class="form-control" required>
-                </div>
+                        {{-- 5. PRICE --}}
+                        <div class="form-group mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="number" class="form-control bg-dark border-0" step="0.01" name="price" id="price" value="{{ old('price') }}" required>
+                            @error('price') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div> {{-- End col-md-6 Left Side --}}
+                    
+                    <div class="col-md-6">
+                        {{-- 6. PLATFORMS CHECKBOXES --}}
+                        <div class="form-group mb-3">
+                            <label><strong>Platforms:</strong></label><br>
+                            @foreach ($platforms as $platform)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="platform_ids[]" value="{{ $platform->id }}" {{ in_array($platform->id, old('platform_ids', [])) ? 'checked' : '' }}>
+                                    <label class="form-check-label">{{ $platform->name }}</label>
+                                </div>
+                            @endforeach
+                            @error('platform_ids') <div class="text-danger">{{ $message }}</div> @enderror
+                        </div>
 
-                <button type="submit" class="btn btn-primary">Add the game</button>
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
+                        {{-- 7. GENRES CHECKBOXES --}}
+                        <div class="form-group mb-3">
+                            <label><strong>Genres:</strong></label><br>
+                            @foreach ($genres as $genre)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="genre_ids[]" value="{{ $genre->id }}" {{ in_array($genre->id, old('genre_ids', [])) ? 'checked' : '' }}>
+                                    <label class="form-check-label">{{ $genre->name }}</label>
+                                </div>
+                            @endforeach
+                            @error('genre_ids') <div class="text-danger">{{ $message }}</div> @enderror
+                        </div>
+
+                        {{-- 8. SHORT DESCRIPTION --}}
+                        <div class="form-group mb-3">
+                            <label for="description" class="form-label">Short Description:</label>
+                            <textarea name="description" class="form-control bg-dark border-0" rows="3">{{ old('description') }}</textarea>
+                            @error('description') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        {{-- 9. ABOUT THIS GAME (Content) --}}
+                        <div class="form-group mb-3">
+                            <label for="content" class="form-label">About This Game (Detailed Content):</label>
+                            <textarea name="content" class="form-control bg-dark border-0" rows="6">{{ old('content') }}</textarea>
+                            @error('content') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                        
+                        {{-- 10. SYSTEM REQUIREMENTS --}}
+                        <div class="form-group mb-3">
+                            <label for="system_requirements" class="form-label">System Requirements:</label>
+                            <textarea name="system_requirements" class="form-control bg-dark border-0" rows="4">{{ old('system_requirements') }}</textarea>
+                            @error('system_requirements') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div> {{-- End col-md-6 Right Side --}}
+                </div> {{-- End row --}}
+
+                {{-- CONFIRMATION --}}
+                <button type="submit" class="btn btn-primary mt-4">Add the game</button>
+                <a href="{{ route('products.index') }}" class="btn btn-secondary mt-4">Cancel</a>
             </form>
+            
+            <script>
+                $(document).ready(function() {
+                    $('#datetimepicker').datetimepicker({
+                        format: 'MM/DD/YYYY', 
+                        viewMode: 'days', 
+                        useCurrent: false,
+                        closeOnSelect: false,
+                        sideBySide: false,
+                        buttons: { showToday: true, showClear: true, showClose: true },
+                        icons: {
+                            date: 'fa fa-calendar', up: 'fa fa-arrow-up', down: 'fa fa-arrow-down',
+                            previous: 'fa fa-chevron-left', next: 'fa fa-chevron-right',
+                            today: 'fa fa-crosshairs', clear: 'fa fa-trash', close: 'fa fa-times'
+                        },
+                    });
+                });
+            </script>
         </div>
     </div>
 </div>
-
 @endsection

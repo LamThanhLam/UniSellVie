@@ -47,7 +47,7 @@
                 {{-- Display About This Game (Content) --}}
                 <h2>About This Game</h2>
                 <div>
-                    {!! nl2br(e($product->content)) !!} {{-- Dùng nl2br để giữ định dạng xuống dòng --}}
+                    {!! nl2br(e($product->content)) !!} {{-- Use nl2br to keep line break formatting --}}
                 </div>
 
                 {{-- Display system requirements --}}

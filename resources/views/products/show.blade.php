@@ -2,11 +2,10 @@
 
 @section('content')
     <div class="container">
-        <h1>Thông Tin Chi Tiết Sản Phẩm</h1>
         <div class="row">
             <div class="col-md-8">
                 <h1>{{ $product->title }}</h1>
-                <p><strong>Giá:</strong> {{ number_format($product->price) }} $</p>
+                <p><strong>Price:</strong> {{ number_format($product->price) }} $</p>
                 </div>
         </div>
 
@@ -16,51 +15,53 @@
                 {{ $product->title }}
             </div> -->
             <div class="card-body">
-                <p><strong>Ngày phát hành:</strong> {{ $product->releaseDate->format('d/m/Y') }}</p>
-                <p><strong>Nhà phát triển:</strong> {{ $product->developer }}</p>
-                <p><strong>Nhà xuất bản:</strong> {{ $product->publisher }}</p>
-                <p><strong>Mô tả ngắn:</strong> {{ $product->description }}</p>
+                <p><strong>Released date:</strong> {{ $product->releaseDate->format('m/d/Y') }}</p>
+                <p><strong>Developer:</strong> {{ $product->developer }}</p>
+                <p><strong>Publisher:</strong> {{ $product->publisher }}</p>
+                <p><strong>Description:</strong> {{ $product->description }}</p>
 
                 {{-- Display Platforms --}}
                 <p>
-                    <strong>Nền tảng:</strong>
+                    <strong>Platforms:</strong>
                     @if ($product->platforms->count())
                         @foreach ($product->platforms as $platform)
                             <span class="badge bg-secondary">{{ $platform->name }}</span>
                         @endforeach
                     @else
-                        <span>Chưa có nền tảng nào được chỉ định.</span>
+                        <span>There is no assigned platform.</span>
                     @endif
                 </p>
 
                 {{-- Display Genres --}}
                 <p>
-                    <strong>Thể loại:</strong>
+                    <strong>Genres:</strong>
                     @if ($product->genres->count())
                         @foreach ($product->genres as $genre)
                             <span class="badge bg-info">{{ $genre->name }}</span>
                         @endforeach
                     @else
-                        <span>Chưa có thể loại nào được chỉ định.</span>
+                        <span>There is no assigned genre.</span>
                     @endif
                 </p>
 
                 {{-- Display About This Game (Content) --}}
-                <h2>Giới thiệu chi tiết (About This Game)</h2>
+                <h2>About This Game</h2>
                 <div>
-                    {!! nl2br(e($product->content)) !!} {{-- Dùng nl2br để giữ định dạng xuống dòng --}}
+                    {!! nl2br(e($product->content)) !!} {{-- Use nl2br to keep line break formatting --}}
                 </div>
 
                 {{-- Display system requirements --}}
-                <h2>Yêu cầu Cấu hình (System Requirements)</h2>
+                <h2>System Requirements</h2>
                 <div>
                     {!! nl2br(e($product->system_requirements)) !!}
                 </div>
-                <p><strong>Giá:</strong> {{ number_format($product->price, 2) }}</p>
+                <p><strong>Price:</strong> {{ number_format($product->price, 2) }}</p>
             </div>
             <div class="card-footer">
-                <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary">Sửa</a>
-                
+                @can('update', $product)
+                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-info btn-sm">
+                    <i class="fa fa-pen me-0"></i> Update</a>
+                @endcan
                 {{-- Check if user has logged in --}}
                 @auth 
                     @if ($isOwned)
@@ -83,7 +84,7 @@
                         Login to purchase ({{ number_format($product->price, 0, ',', '.') }} $)
                     </a>
                 @endauth
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Return</a>
+                <a href="{{ route('products.index') }}" class="btn btn-info btn-sm">Return</a>
             </div>
         </div>
     </div>

@@ -132,6 +132,16 @@
             </nav>
             <!-- End of navigation bar area -->
 
+                @if (session('success'))
+                    <div class="alert alert-success mt-3">{{ session('success') }}</div>
+                @endif
+                @if (session('warning'))
+                    <div class="alert alert-warning mt-3">{{ session('warning') }}</div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+                @endif    
+
                 <main class="py-4">
                     @yield('content')
                 </main>

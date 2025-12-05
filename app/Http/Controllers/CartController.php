@@ -14,14 +14,15 @@ class CartController extends Controller
     public function store(Request $request, Product $product)
     {
         // CHECK OWNERSHIP: Prevent re-purchase if the game is in the user's library
-        $isOwned = \App\Models\OrderItem::where('product_id', $product->id)
-                        ->whereHas('order', function($query) { // Use whereHas
-                            $query->where('user_id', Auth::id());
-                        })
-                        ->exists();
+        $isOwned = \App\Models\OrderItem::where('product_id', Auth::id())
+                                        ->where('product_id', $product->id)
+                                        ->whereHas('order', function($query) { // Use whereHas
+                                            $query->where('user_id', Auth::id());
+                                        })
+                                        ->exists();
 
         if ($isOwned) {
-            return redirect()->back()->with('error', 'You have already owned this game! Check your Library.');
+            return redirect()->route('home.index')->with('error', 'You have already owned this game! Check your Order Histories.');
         }
 
         // CHECK IF ALREADY IN CART (Only one copy of a game is allowed in the cart)

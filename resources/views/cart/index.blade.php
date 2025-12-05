@@ -34,15 +34,15 @@
         </table>
 
         <div class="card p-3">
-            <h3>Tổng cộng: {{ number_format($totalPrice) }} VNĐ</h3> <button class="btn btn-primary btn-lg mt-3">Tiến hành Thanh toán (Tính năng chỉ là mô phỏng)</button> </div>
+            <h3>Total: {{ number_format($totalPrice) }} $</h3> <button class="btn btn-primary btn-lg mt-3">Checkout (This feature is just a simulation)</button> </div>
     @endif
 
     <div class="card p-3">
-        <h3>Tổng cộng: {{ number_format($totalPrice) }} VNĐ</h3>
+        <h3>Total: {{ number_format($totalPrice) }} $</h3>
         
         <form action="{{ route('checkout.process') }}" method="POST">
             @csrf
-            <button type="submit" class="btn btn-primary btn-lg mt-3">Tiến hành Thanh toán</button>
+            <button type="submit" class="btn btn-primary btn-lg mt-3">Checkout</button>
         </form>
     </div>
     

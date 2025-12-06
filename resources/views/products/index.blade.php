@@ -17,7 +17,7 @@
                             
                             <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
 
-                            <form action="{{ route('home.index') }}" method="GET" class="d-flex align-items-center">
+                            <form action="{{ route('products.index') }}" method="GET" class="d-flex align-items-center">
                                 
                                 <input class="form-control bg-dark border-0 me-2" 
                                     type="text" 

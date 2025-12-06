@@ -19,10 +19,10 @@
                 <table class="table table-bordered table-dark table-hover">
                     <thead>
                         <tr>
-                            <th width="37%">Order Code</th>
+                            <th width="30%">Order Code</th>
                             <th width="12%">Total amount</th>
                             <th width="20%">Status</th>
-                            <th width="8%">Order date</th>
+                            <th width="15%">Order date</th>
                             <th width="23%">Detail</th>
                         </tr>
                     </thead>
